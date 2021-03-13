@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { pick } from 'lodash'
+import pick from 'lodash.pick'
 
 const coerce = (value, field = {}) => {
   if (field.type === 'number') {

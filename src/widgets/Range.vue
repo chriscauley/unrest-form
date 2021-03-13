@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { pick } from 'lodash'
+import pick from 'lodash.pick'
 export default {
   props: {
     field: Object,
