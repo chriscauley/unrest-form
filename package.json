@@ -1,9 +1,8 @@
 {
   "name": "@unrest/form",
   "author": "Chris Cauley <cauley.chris@gmail.com>",
-  "version": "0.1.0",
-  "main": "dist/vue.common.js",
-  "private": true,
+  "version": "0.0.1",
+  "main": "dist/form.common.js",
   "scripts": {
     "build": "vue-cli-service build --target lib src/index.js",
     "lint": "vue-cli-service lint"
@@ -23,20 +22,6 @@
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^7.0.0-0"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/vue3-essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
   },
   "browserslist": [
     "> 1%",

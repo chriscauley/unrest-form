@@ -20,3 +20,7 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# only commit common.js version for now
+dist/form.umd*
+dist/demo.html
