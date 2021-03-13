@@ -6,7 +6,7 @@
         v-is="field.ui.tagName"
         :field="field"
         :modelValue="modelValue"
-        @update:modelValue="(value) => change(field.name, value)"
+        @update:modelValue="value => change(field.name, value)"
       />
     </div>
     <div v-if="error" class="error">

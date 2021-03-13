@@ -48,7 +48,7 @@ export default {
   },
   beforeMount() {
     const { state, fields } = this
-    fields.forEach((field) => {
+    fields.forEach(field => {
       if (!state.hasOwnProperty(field.name)) {
         state[field.name] = field.default
       }

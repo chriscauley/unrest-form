@@ -3,7 +3,7 @@ import prepFields from './prepFields'
 
 export default {
   prepFields,
-  install: (app) => {
+  install: app => {
     app.component('ur-form', UrForm)
-  }
+  },
 }

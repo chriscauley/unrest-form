@@ -1,4 +1,4 @@
-const getDefaultTagName = (field) => {
+const getDefaultTagName = field => {
   if (field.enum) {
     return 'vf-select'
   } else if (field.type === 'boolean') {
