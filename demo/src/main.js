@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import vjsf from '@unrest/vjsf'
+import UrForm from '@unrest/form'
 
 const app = createApp(App)
-app.use(vjsf)
+app.use(UrForm)
 app.mount('#app')

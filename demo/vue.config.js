@@ -1,7 +1,7 @@
 const path = require('path')
 
 const devServer = {
-  host: 'urvjsf.localhost',
+  host: 'urform.localhost',
   port: 8711,
   historyApiFallback: true,
 }
@@ -12,12 +12,12 @@ module.exports = {
   configureWebpack: {
     resolve: {
       alias: {
-        '@unrest/vjsf': path.resolve(__dirname, '../src/index.js'),
+        '@unrest/form': path.resolve(__dirname, '../src/index.js'),
       },
     },
   },
 }
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports.publicPath = '/unrest-vjsf'
+  module.exports.publicPath = '/unrest-form'
 }
