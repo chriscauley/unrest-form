@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <form @submit.prevent="submit" class="vacuform">
+  <form @submit.prevent="submit" class="ur-form">
     <Field
       v-model="state[field.name]"
       v-for="field in fields"
