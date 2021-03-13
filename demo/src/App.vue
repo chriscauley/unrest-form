@@ -9,6 +9,14 @@ const schema = {
     name: {
       type: 'text',
     },
+    color: {
+      type: 'text',
+      enum: ['red', 'green', 'blue'],
+    },
+    newsletter: {
+      type: 'boolean',
+      title: 'Sign up for our newsletter',
+    },
   },
 }
 
