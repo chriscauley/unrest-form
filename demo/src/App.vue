@@ -1,8 +1,10 @@
 <template>
-  <ur-form :schema="schema" />
+  <playground-form :schema="schema" />
 </template>
 
 <script>
+import PlaygroundForm from '@/components/PlaygroundForm'
+
 const schema = {
   type: 'object',
   properties: {
@@ -22,6 +24,7 @@ const schema = {
 
 export default {
   name: 'App',
+  components: { PlaygroundForm },
   data() {
     return { schema }
   },

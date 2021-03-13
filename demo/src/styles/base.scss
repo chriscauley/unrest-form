@@ -1,6 +1,10 @@
 @tailwind base;
 @tailwind components;
 
+html, body, #app, .playground-form, .playground-form__schema textarea {
+  height: 100%;
+}
+
 .ur-form .form-group {
   @apply mb-4;
   .control-label {
@@ -32,3 +36,22 @@
   }
 }
 
+.playground-form {
+  @apply flex;
+  &__form, &__schema {
+    @apply p-4 w-1/2;
+  }
+  &__schema {
+    @apply flex flex-col;
+    textarea {
+      @apply border mb-4 p-2 w-full;
+    }
+  }
+}
+
+.alert {
+  @apply border px-4 py-3 rounded relative mb-2 flex justify-between items-center;
+  &.alert-danger {
+    @apply bg-red-200 border-red-400 text-red-800;
+  }
+}
