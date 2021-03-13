@@ -7,8 +7,8 @@ const schema = {
   type: 'object',
   properties: {
     name: {
-      type: 'text'
-    }
+      type: 'text',
+    },
   },
 }
 
@@ -16,9 +16,8 @@ export default {
   name: 'App',
   data() {
     return { schema }
-  }
+  },
 }
 </script>
 
-<style>
-</style>
+<style></style>
