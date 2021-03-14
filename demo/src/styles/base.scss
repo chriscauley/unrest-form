@@ -36,6 +36,10 @@ html, body, #app, .playground-form, .playground-form__schema textarea {
   }
 }
 
+.ur-form .form-error {
+  @apply text-red-500 text-sm;
+}
+
 .playground-form {
   @apply flex;
   &__form, &__schema {

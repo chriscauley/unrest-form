@@ -9,7 +9,7 @@
         @update:modelValue="value => change(field.name, value)"
       />
     </div>
-    <div v-if="error" class="error">
+    <div v-if="error" class="form-error">
       {{ error }}
     </div>
     <div v-else-if="field.description" class="description">
@@ -26,21 +26,19 @@ import VfText from './widgets/Text'
 
 export default {
   components: { VfText, VfSelect, VfCheckbox, VfRange },
+  inject: ['ur_form'],
   props: {
     field: Object,
     form: Object,
     modelValue: null,
     change: Function,
   },
-  data() {
-    return { showError: false }
-  },
   computed: {
     ui() {
       return this.field.ui
     },
     error() {
-      return this.$attrs.error
+      return this.ur_form.errors?.[this.field.name]
     },
     css() {
       return {

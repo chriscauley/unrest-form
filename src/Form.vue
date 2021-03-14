@@ -8,12 +8,12 @@
       :field="field"
       :change="change"
     />
+    <div v-if="root_error" class="form-error">
+      {{ root_error }}
+    </div>
     <slot name="actions">
       <button type="submit" class="btn btn-primary">Submit</button>
     </slot>
-    <div v-if="error" class="form-error">
-      {{ error }}
-    </div>
   </form>
 </template>
 
@@ -24,6 +24,9 @@ import Field from './Field'
 
 export default {
   components: { Field },
+  provide() {
+    return { ur_form: this }
+  },
   props: {
     schema: Object,
     uiSchema: Object,
@@ -39,12 +42,16 @@ export default {
       type: Function,
       default: () => {},
     },
+    errors: Object,
   },
   data: () => ({ error: null }),
   computed: {
     fields() {
       return prepFields(this.schema, this.uiSchema)
     },
+    root_error() {
+      return this.error || this.errors?.__all__
+    }
   },
   beforeMount() {
     const { state, fields } = this
