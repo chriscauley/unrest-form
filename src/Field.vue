@@ -20,12 +20,13 @@
 
 <script>
 import UrCheckbox from './widgets/Checkbox'
+import UrImage from './widgets/Image'
 import UrRange from './widgets/Range'
 import UrSelect from './widgets/Select'
 import UrText from './widgets/Text'
 
 export default {
-  components: { UrCheckbox, UrRange, UrSelect, UrText },
+  components: { UrCheckbox, UrImage, UrRange, UrSelect, UrText },
   inject: ['ur_form'],
   props: {
     field: Object,

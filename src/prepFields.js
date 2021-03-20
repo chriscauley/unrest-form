@@ -3,6 +3,8 @@ const getDefaultTagName = field => {
     return 'ur-select'
   } else if (field.type === 'boolean') {
     return 'ur-checkbox'
+  } else if (field.type === 'image') {
+    return 'ur-image'
   } else if (field.format === 'color') {
     return 'ur-color'
   }

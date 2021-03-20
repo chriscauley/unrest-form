@@ -51,7 +51,7 @@ export default {
     },
     root_error() {
       return this.error || this.errors?.__all__
-    }
+    },
   },
   beforeMount() {
     const { state, fields } = this
