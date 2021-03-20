@@ -1,13 +1,21 @@
 <template>
   <div class="playground-form">
     <div class="playground-form__schema">
+      <div>Form schema</div>
       <textarea v-model="text_schema" />
       <div v-if="error" class="alert alert-danger">
         {{ error.message }}
       </div>
     </div>
     <div class="playground-form__form">
-      <ur-form v-bind="form_attrs" />
+      <div>Form</div>
+      <ur-form v-bind="form_attrs" :onChange="sync" />
+    </div>
+    <div class="playground-result">
+      <div>Form State</div>
+      <div class="playground-result__body">
+        {{ text_state }}
+      </div>
     </div>
   </div>
 </template>
@@ -24,7 +32,7 @@ export default {
   },
   data() {
     const text_schema = JSON.stringify(this.schema, null, 4)
-    return { text_schema, current_schema: this.schema, error: null }
+    return { text_schema, current_schema: this.schema, error: null, text_state: null }
   },
   computed: {
     form_attrs() {
@@ -49,6 +57,7 @@ export default {
         window.E = e
         this.error = e
       }
+      this.text_state = JSON.stringify(this.state, null, 2)
     },
   },
 }

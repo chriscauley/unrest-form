@@ -59,3 +59,12 @@ html, body, #app, .playground-form, .playground-form__schema textarea {
     @apply bg-red-200 border-red-400 text-red-800;
   }
 }
+
+.playground-result {
+  max-width: 33.333%;
+  overflow: auto;
+  &__body {
+    font-family: monospace;
+    white-space: pre;
+  }
+}

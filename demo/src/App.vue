@@ -19,6 +19,10 @@ const schema = {
       type: 'boolean',
       title: 'Sign up for our newsletter',
     },
+    avatar: {
+      type: 'image',
+      title: 'Avatar',
+    },
   },
 }
 
