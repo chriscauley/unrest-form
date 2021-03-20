@@ -21,7 +21,7 @@ export default {
       const { disabled } = this.field
       return [
         this.field.ui.css,
-        'vf-checkbox -' + this.icon,
+        'ur-checkbox -' + this.icon,
         { '-mixed': mixed, '-disabled': disabled },
       ]
     },

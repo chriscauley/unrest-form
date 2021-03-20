@@ -19,13 +19,13 @@
 </template>
 
 <script>
-import VfSelect from './widgets/Select'
-import VfCheckbox from './widgets/Checkbox'
-import VfRange from './widgets/Range'
-import VfText from './widgets/Text'
+import UrCheckbox from './widgets/Checkbox'
+import UrRange from './widgets/Range'
+import UrSelect from './widgets/Select'
+import UrText from './widgets/Text'
 
 export default {
-  components: { VfText, VfSelect, VfCheckbox, VfRange },
+  components: { UrCheckbox, UrRange, UrSelect, UrText },
   inject: ['ur_form'],
   props: {
     field: Object,
@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     showLabel(field) {
-      return field.title && !['vf-checkbox'].includes(field.ui.tagName)
+      return field.title && !['ur-checkbox'].includes(field.ui.tagName)
     },
   },
 }

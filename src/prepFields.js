@@ -1,12 +1,12 @@
 const getDefaultTagName = field => {
   if (field.enum) {
-    return 'vf-select'
+    return 'ur-select'
   } else if (field.type === 'boolean') {
-    return 'vf-checkbox'
+    return 'ur-checkbox'
   } else if (field.format === 'color') {
-    return 'vf-color'
+    return 'ur-color'
   }
-  return 'vf-text'
+  return 'ur-text'
 }
 
 export default (schema, ui = {}) => {

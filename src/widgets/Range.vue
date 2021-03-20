@@ -1,7 +1,7 @@
 <template>
-  <div class="vf-range">
+  <div class="ur-range">
     <input type="range" v-bind="inputAttrs" @input="change" @change="change" :value="modelValue" />
-    <div class="vf-range__value">
+    <div class="ur-range__value">
       {{ modelValue }}
     </div>
   </div>
