@@ -1,24 +1,24 @@
 # Unrest Form
 
-## Project setup
-```
-yarn install
-```
+### Development
 
-### Compiles and hot-reloads for development
+To see changes while developing, use the demo. In order to develop you will need to delete the node_modules in the project root (advice on how to fix this would be greatly appreciated).
+
 ```
+rm -rf node_modules
+cd demo
+yarn install
 yarn serve
 ```
 
-### Compiles and minifies for production
-```
-yarn build
-```
+To update documentation (github pages), build the demo app and commit any changes in /docs.
 
-### Lints and fixes files
+### Build and Publish
+
 ```
+yarn install
 yarn lint
+yarn build
+yarn publish
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
