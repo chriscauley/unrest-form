@@ -22,6 +22,7 @@ const schema = {
     avatar: {
       type: 'image',
       title: 'Avatar',
+      default: 'https://i.imgur.com/YSPe6yA.jpg',
     },
   },
 }

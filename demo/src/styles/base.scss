@@ -68,3 +68,10 @@ html, body, #app, .playground-form, .playground-form__schema textarea {
     white-space: pre;
   }
 }
+
+.ur-file {
+  @apply flex;
+  .original, .preview {
+    max-width: 50%;
+  }
+}

@@ -1,11 +1,17 @@
 <template>
   <label :for="field.id" :class="css">
     <input style="display:none;" type="file" :id="field.id" @change="onChange" ref="input" />
+    <div v-if="original" class="original">
+      <img :src="original" />
+      <div class="name">
+        {{ original.split('/').pop() }}
+      </div>
+    </div>
     <div v-if="preview" class="preview">
       <img :src="preview.dataURL" />
-      <div>
+      <div class="name">
         {{ preview.name }}
-        <button v-if="preview" @click.prevent="preview = null">Clear</button>
+        <button v-if="preview" @click.prevent="clear">Clear</button>
       </div>
     </div>
     <div class="btn -primary" v-else>
@@ -22,7 +28,7 @@ export default {
   },
   emits: ['update:modelValue'],
   data() {
-    return { preview: null }
+    return { preview: null, original: this.modelValue }
   },
   computed: {
     css() {
@@ -30,6 +36,10 @@ export default {
     },
   },
   methods: {
+    clear() {
+      this.$refs.input.value = null
+      this.preview = null
+    },
     onChange() {
       const file = this.$refs.input.files[0]
       const reader = new FileReader()
