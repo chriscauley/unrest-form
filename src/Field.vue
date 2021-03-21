@@ -1,5 +1,5 @@
 <template>
-  <div :class="css.root">
+  <div :class="css.root" v-if="field.ui.tagName !== 'ur-hidden'">
     <label v-if="showLabel(field)" :for="field.id">{{ field.title }}</label>
     <div class="input-wrapper">
       <div
@@ -35,9 +35,6 @@ export default {
     change: Function,
   },
   computed: {
-    ui() {
-      return this.field.ui
-    },
     error() {
       return this.ur_form.errors?.[this.field.name]
     },

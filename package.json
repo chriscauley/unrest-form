@@ -3,6 +3,7 @@
   "author": "Chris Cauley <cauley.chris@gmail.com>",
   "version": "0.0.1",
   "main": "dist/form.common.js",
+  "license": "MIT",
   "scripts": {
     "build": "vue-cli-service build --target lib src/index.js",
     "lint": "vue-cli-service lint"

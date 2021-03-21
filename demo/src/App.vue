@@ -24,6 +24,12 @@ const schema = {
       title: 'Avatar',
       default: 'https://i.imgur.com/YSPe6yA.jpg',
     },
+    hidden: {
+      type: 'string',
+      title: "Shouldn't see me",
+      default: 'Foo',
+      ul: { tagName: 'ur-hidden' },
+    },
   },
 }
 
