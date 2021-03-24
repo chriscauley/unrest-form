@@ -11,9 +11,11 @@
     <div v-if="root_error" class="form-error">
       {{ root_error }}
     </div>
-    <slot name="actions">
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </slot>
+    <div class="ur-form__actions">
+      <slot name="actions">
+        <button type="submit" class="btn -primary">Submit</button>
+      </slot>
+    </div>
   </form>
 </template>
 

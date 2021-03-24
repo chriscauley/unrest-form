@@ -4190,17 +4190,20 @@ var es_function_name = __webpack_require__("b0c0");
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Form.vue?vue&type=template&id=22a6e342
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Form.vue?vue&type=template&id=42d6011e
 
 
 var _hoisted_1 = {
   key: 0,
   class: "form-error"
 };
+var _hoisted_2 = {
+  class: "ur-form__actions"
+};
 
-var _hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("button", {
+var _hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("button", {
   type: "submit",
-  class: "btn btn-primary"
+  class: "btn -primary"
 }, "Submit", -1);
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -4221,11 +4224,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       field: field,
       change: $options.change
     }, null, 8, ["modelValue", "onUpdate:modelValue", "field", "change"]);
-  }), 128)), $options.root_error ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", _hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($options.root_error), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "actions", {}, function () {
-    return [_hoisted_2];
-  })], 32);
+  }), 128)), $options.root_error ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", _hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($options.root_error), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", _hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "actions", {}, function () {
+    return [_hoisted_3];
+  })])], 32);
 }
-// CONCATENATED MODULE: ./src/Form.vue?vue&type=template&id=22a6e342
+// CONCATENATED MODULE: ./src/Form.vue?vue&type=template&id=42d6011e
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.for-each.js
 var web_dom_collections_for_each = __webpack_require__("159b");
@@ -4401,7 +4404,7 @@ var Fieldvue_type_template_id_152f0faa_hoisted_2 = {
   key: 1,
   class: "form-error"
 };
-var _hoisted_3 = {
+var Fieldvue_type_template_id_152f0faa_hoisted_3 = {
   key: 2,
   class: "description"
 };
@@ -4418,7 +4421,7 @@ function Fieldvue_type_template_id_152f0faa_render(_ctx, _cache, $props, $setup,
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function (value) {
       return $props.change($props.field.name, value);
     })
-  }, null, 8, ["field", "modelValue"]))]), $options.error ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", Fieldvue_type_template_id_152f0faa_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($options.error), 1)) : $props.field.description ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", _hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.description), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
+  }, null, 8, ["field", "modelValue"]))]), $options.error ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", Fieldvue_type_template_id_152f0faa_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($options.error), 1)) : $props.field.description ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", Fieldvue_type_template_id_152f0faa_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.description), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
 }
 // CONCATENATED MODULE: ./src/Field.vue?vue&type=template&id=152f0faa
 
