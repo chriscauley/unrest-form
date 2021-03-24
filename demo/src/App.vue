@@ -28,7 +28,16 @@ const schema = {
       type: 'string',
       title: "Shouldn't see me",
       default: 'Foo',
-      ul: { tagName: 'ur-hidden' },
+      ui: { tagName: 'ur-hidden' },
+    },
+    password: {
+      type: 'string',
+      default: 'I am a password field',
+    },
+    password_hint: {
+      type: 'string',
+      default: 'I am not a password field',
+      ui: { type: 'text' },
     },
   },
 }

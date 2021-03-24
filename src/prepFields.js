@@ -11,15 +11,22 @@ const getDefaultTagName = field => {
   return 'ur-text'
 }
 
-export default (schema, ui = {}) => {
+const prepUi = (field, global_ui) => {
+  const default_ui = { type: 'text', tagName: getDefaultTagName(field) }
+  if (field.type === 'number') {
+    default_ui.type = 'number'
+  }
+  if (field.name.includes('password')) {
+    default_ui.type = 'password'
+  }
+  return Object.assign(default_ui, global_ui[field.name], field.ui)
+}
+
+export default (schema, global_ui = {}) => {
   return Object.entries(schema.properties).map(([name, { ...field }]) => {
     field.name = name
     field.id = `id__${field.name}`
-    const uiDefaults = { type: 'text', tagName: getDefaultTagName(field) }
-    field.ui = Object.assign(uiDefaults, ui[name], field.ui)
-    if (field.type === 'number') {
-      field.ui.type = 'number'
-    }
+    field.ui = prepUi(field, global_ui)
     if (!field.title) {
       field.title = field.name[0].toUpperCase() + field.name.slice(1)
     }
