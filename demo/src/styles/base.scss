@@ -42,8 +42,8 @@ html, body, #app, .playground-form, .playground-form__schema textarea {
 
 .playground-form {
   @apply flex;
-  &__form, &__schema {
-    @apply p-4 w-1/2;
+  &__form, &__schema, .playground-result {
+    @apply overflow-auto p-4 w-1/3;
   }
   &__schema {
     @apply flex flex-col;
@@ -61,7 +61,6 @@ html, body, #app, .playground-form, .playground-form__schema textarea {
 }
 
 .playground-result {
-  max-width: 33.333%;
   overflow: auto;
   &__body {
     font-family: monospace;

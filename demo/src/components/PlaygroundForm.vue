@@ -9,7 +9,7 @@
     </div>
     <div class="playground-form__form">
       <div>Form</div>
-      <ur-form v-bind="form_attrs" :onChange="sync" />
+      <ur-form v-bind="form_attrs" @input="sync" @change="sync" />
     </div>
     <div class="playground-result">
       <div>Form State</div>
@@ -51,7 +51,7 @@ export default {
       this.error = null
       try {
         const parsed = JSON.parse(this.text_schema)
-        UrForm.prepFields(parsed)
+        UrForm.prepField('__root', parsed)
         this.current_schema = parsed
       } catch (e) {
         window.E = e
