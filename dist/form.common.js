@@ -189,6 +189,53 @@ exports.f = DESCRIPTORS ? nativeGetOwnPropertyDescriptor : function getOwnProper
 
 /***/ }),
 
+/***/ "0cb2":
+/***/ (function(module, exports, __webpack_require__) {
+
+var toObject = __webpack_require__("7b0b");
+
+var floor = Math.floor;
+var replace = ''.replace;
+var SUBSTITUTION_SYMBOLS = /\$([$&'`]|\d{1,2}|<[^>]*>)/g;
+var SUBSTITUTION_SYMBOLS_NO_NAMED = /\$([$&'`]|\d{1,2})/g;
+
+// https://tc39.es/ecma262/#sec-getsubstitution
+module.exports = function (matched, str, position, captures, namedCaptures, replacement) {
+  var tailPos = position + matched.length;
+  var m = captures.length;
+  var symbols = SUBSTITUTION_SYMBOLS_NO_NAMED;
+  if (namedCaptures !== undefined) {
+    namedCaptures = toObject(namedCaptures);
+    symbols = SUBSTITUTION_SYMBOLS;
+  }
+  return replace.call(replacement, symbols, function (match, ch) {
+    var capture;
+    switch (ch.charAt(0)) {
+      case '$': return '$';
+      case '&': return matched;
+      case '`': return str.slice(0, position);
+      case "'": return str.slice(tailPos);
+      case '<':
+        capture = namedCaptures[ch.slice(1, -1)];
+        break;
+      default: // \d\d?
+        var n = +ch;
+        if (n === 0) return match;
+        if (n > m) {
+          var f = floor(n / 10);
+          if (f === 0) return match;
+          if (f <= m) return captures[f - 1] === undefined ? ch.charAt(1) : captures[f - 1] + ch.charAt(1);
+          return match;
+        }
+        capture = captures[n - 1];
+    }
+    return capture === undefined ? '' : capture;
+  });
+};
+
+
+/***/ }),
+
 /***/ "0cfb":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1040,6 +1087,112 @@ var hasOwnProperty = {}.hasOwnProperty;
 module.exports = function (it, key) {
   return hasOwnProperty.call(it, key);
 };
+
+
+/***/ }),
+
+/***/ "5319":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var fixRegExpWellKnownSymbolLogic = __webpack_require__("d784");
+var anObject = __webpack_require__("825a");
+var toLength = __webpack_require__("50c4");
+var toInteger = __webpack_require__("a691");
+var requireObjectCoercible = __webpack_require__("1d80");
+var advanceStringIndex = __webpack_require__("8aa5");
+var getSubstitution = __webpack_require__("0cb2");
+var regExpExec = __webpack_require__("14c3");
+
+var max = Math.max;
+var min = Math.min;
+
+var maybeToString = function (it) {
+  return it === undefined ? it : String(it);
+};
+
+// @@replace logic
+fixRegExpWellKnownSymbolLogic('replace', 2, function (REPLACE, nativeReplace, maybeCallNative, reason) {
+  var REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE = reason.REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE;
+  var REPLACE_KEEPS_$0 = reason.REPLACE_KEEPS_$0;
+  var UNSAFE_SUBSTITUTE = REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE ? '$' : '$0';
+
+  return [
+    // `String.prototype.replace` method
+    // https://tc39.es/ecma262/#sec-string.prototype.replace
+    function replace(searchValue, replaceValue) {
+      var O = requireObjectCoercible(this);
+      var replacer = searchValue == undefined ? undefined : searchValue[REPLACE];
+      return replacer !== undefined
+        ? replacer.call(searchValue, O, replaceValue)
+        : nativeReplace.call(String(O), searchValue, replaceValue);
+    },
+    // `RegExp.prototype[@@replace]` method
+    // https://tc39.es/ecma262/#sec-regexp.prototype-@@replace
+    function (regexp, replaceValue) {
+      if (
+        (!REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE && REPLACE_KEEPS_$0) ||
+        (typeof replaceValue === 'string' && replaceValue.indexOf(UNSAFE_SUBSTITUTE) === -1)
+      ) {
+        var res = maybeCallNative(nativeReplace, regexp, this, replaceValue);
+        if (res.done) return res.value;
+      }
+
+      var rx = anObject(regexp);
+      var S = String(this);
+
+      var functionalReplace = typeof replaceValue === 'function';
+      if (!functionalReplace) replaceValue = String(replaceValue);
+
+      var global = rx.global;
+      if (global) {
+        var fullUnicode = rx.unicode;
+        rx.lastIndex = 0;
+      }
+      var results = [];
+      while (true) {
+        var result = regExpExec(rx, S);
+        if (result === null) break;
+
+        results.push(result);
+        if (!global) break;
+
+        var matchStr = String(result[0]);
+        if (matchStr === '') rx.lastIndex = advanceStringIndex(S, toLength(rx.lastIndex), fullUnicode);
+      }
+
+      var accumulatedResult = '';
+      var nextSourcePosition = 0;
+      for (var i = 0; i < results.length; i++) {
+        result = results[i];
+
+        var matched = String(result[0]);
+        var position = max(min(toInteger(result.index), S.length), 0);
+        var captures = [];
+        // NOTE: This is equivalent to
+        //   captures = result.slice(1).map(maybeToString)
+        // but for some reason `nativeSlice.call(result, 1, result.length)` (called in
+        // the slice polyfill when slicing native arrays) "doesn't work" in safari 9 and
+        // causes a crash (https://pastebin.com/N21QzeQA) when trying to debug it.
+        for (var j = 1; j < result.length; j++) captures.push(maybeToString(result[j]));
+        var namedCaptures = result.groups;
+        if (functionalReplace) {
+          var replacerArgs = [matched].concat(captures, position, S);
+          if (namedCaptures !== undefined) replacerArgs.push(namedCaptures);
+          var replacement = String(replaceValue.apply(undefined, replacerArgs));
+        } else {
+          replacement = getSubstitution(matched, S, position, captures, namedCaptures, replaceValue);
+        }
+        if (position >= nextSourcePosition) {
+          accumulatedResult += S.slice(nextSourcePosition, position) + replacement;
+          nextSourcePosition = position + matched.length;
+        }
+      }
+      return accumulatedResult + S.slice(nextSourcePosition);
+    }
+  ];
+});
 
 
 /***/ }),
@@ -4242,14 +4395,10 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
-var es_function_name = __webpack_require__("b0c0");
-
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Form.vue?vue&type=template&id=42d6011e
-
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Form.vue?vue&type=template&id=1845aeaf
 
 var _hoisted_1 = {
   key: 0,
@@ -4265,31 +4414,25 @@ var _hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vu
 }, "Submit", -1);
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+  var _component_ur_field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ur-field");
 
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("form", {
-    onSubmit: _cache[1] || (_cache[1] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function () {
+    onSubmit: _cache[2] || (_cache[2] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function () {
       return $options.submit && $options.submit.apply($options, arguments);
     }, ["prevent"])),
     class: "ur-form"
-  }, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])($options.fields, function (field) {
-    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Field, {
-      modelValue: $props.state[field.name],
-      "onUpdate:modelValue": function onUpdateModelValue($event) {
-        return $props.state[field.name] = $event;
-      },
-      key: field.id,
-      field: field,
-      change: $options.change
-    }, null, 8, ["modelValue", "onUpdate:modelValue", "field", "change"]);
-  }), 128)), $options.root_error ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", _hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($options.root_error), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", _hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "actions", {}, function () {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ur_field, {
+    modelValue: $props.state,
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $props.state = $event;
+    }),
+    field: $options.field,
+    key: $options.field.id
+  }, null, 8, ["modelValue", "field"]), $options.root_error ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", _hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($options.root_error), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", _hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "actions", {}, function () {
     return [_hoisted_3];
   })])], 32);
 }
-// CONCATENATED MODULE: ./src/Form.vue?vue&type=template&id=42d6011e
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.for-each.js
-var web_dom_collections_for_each = __webpack_require__("159b");
+// CONCATENATED MODULE: ./src/Form.vue?vue&type=template&id=1845aeaf
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
 function _arrayWithHoles(arr) {
@@ -4353,6 +4496,9 @@ function _iterableToArrayLimit(arr, i) {
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.slice.js
 var es_array_slice = __webpack_require__("fb6a");
 
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
+var es_function_name = __webpack_require__("b0c0");
+
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.from.js
 var es_array_from = __webpack_require__("a630");
 
@@ -4393,6 +4539,34 @@ function _nonIterableRest() {
 function _slicedToArray(arr, i) {
   return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
 }
+// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.for-each.js
+var web_dom_collections_for_each = __webpack_require__("159b");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.entries.js
+var es_object_entries = __webpack_require__("4fad");
+
+// CONCATENATED MODULE: ./src/assignDefaults.js
+
+
+
+
+var assignDefaults_assignDefaults = function assignDefaults(state, schema) {
+  if (schema.type === 'object') {
+    state = state || {};
+    Object.entries(schema.properties).forEach(function (_ref) {
+      var _ref2 = _slicedToArray(_ref, 2),
+          key = _ref2[0],
+          property = _ref2[1];
+
+      state[key] = assignDefaults(state[key], property);
+    });
+    return state;
+  }
+
+  return state || schema.default;
+};
+
+/* harmony default export */ var src_assignDefaults = (assignDefaults_assignDefaults);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.includes.js
 var es_array_includes = __webpack_require__("caad");
 
@@ -4402,14 +4576,13 @@ var es_string_includes = __webpack_require__("2532");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.assign.js
 var es_object_assign = __webpack_require__("cca6");
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.map.js
-var es_array_map = __webpack_require__("d81d");
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.replace.js
+var es_string_replace = __webpack_require__("5319");
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.entries.js
-var es_object_entries = __webpack_require__("4fad");
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.exec.js
+var es_regexp_exec = __webpack_require__("ac1f");
 
-// CONCATENATED MODULE: ./src/prepFields.js
-
+// CONCATENATED MODULE: ./src/prepField.js
 
 
 
@@ -4419,7 +4592,9 @@ var es_object_entries = __webpack_require__("4fad");
 
 
 var getDefaultTagName = function getDefaultTagName(field) {
-  if (field.enum) {
+  if (field.type === 'object') {
+    return 'ur-object';
+  } else if (field.enum) {
     return 'ur-select';
   } else if (field.type === 'boolean') {
     return 'ur-checkbox';
@@ -4449,72 +4624,191 @@ var prepUi = function prepUi(field, global_ui) {
   return Object.assign(default_ui, global_ui[field.name], field.ui);
 };
 
-/* harmony default export */ var prepFields = (function (schema) {
-  var global_ui = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  return Object.entries(schema.properties).map(function (_ref) {
-    var _ref2 = _slicedToArray(_ref, 2),
-        name = _ref2[0],
-        field = Object.assign({}, _ref2[1]);
+var toSentenceCase = function toSentenceCase(s) {
+  // convert camelCase and snake_case to Sentence case
+  s = s.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/_/g, ' ');
+  return s[0].toUpperCase() + s.slice(1);
+};
 
-    field.name = name;
-    field.id = "id__".concat(field.name);
-    field.ui = prepUi(field, global_ui);
+/* harmony default export */ var prepField = (function (name, _ref) {
+  var field = Object.assign({}, _ref);
 
-    if (!field.title) {
-      field.title = field.name[0].toUpperCase() + field.name.slice(1);
-    }
+  var _ref2 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+      _ref2$ui = _ref2.ui,
+      global_ui = _ref2$ui === void 0 ? {} : _ref2$ui;
 
-    return field;
-  });
+  field.name = name;
+  field.id = "id__".concat(field.name);
+  field.ui = prepUi(field, global_ui);
+
+  if (!field.title) {
+    field.title = toSentenceCase(field.name);
+  }
+
+  return field;
 });
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Field.vue?vue&type=template&id=152f0faa
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Form.vue?vue&type=script&lang=js
+
+
+/* harmony default export */ var Formvue_type_script_lang_js = ({
+  provide: function provide() {
+    return {
+      ur_form: this
+    };
+  },
+  props: {
+    schema: Object,
+    uiSchema: Object,
+    state: {
+      type: Object,
+      default: function _default() {
+        return {};
+      }
+    },
+    onSubmit: {
+      type: Function,
+      default: function _default() {}
+    },
+    onChange: {
+      type: Function,
+      default: function _default() {}
+    },
+    errors: Object
+  },
+  data: function data() {
+    return {
+      error: null
+    };
+  },
+  computed: {
+    root_error: function root_error() {
+      var _this$errors;
+
+      return this.error || ((_this$errors = this.errors) === null || _this$errors === void 0 ? void 0 : _this$errors.__all__);
+    },
+    field: function field() {
+      return prepField('__root', this.schema);
+    }
+  },
+  beforeMount: function beforeMount() {
+    src_assignDefaults(this.state, this.schema);
+  },
+  methods: {
+    handleError: function handleError(e) {
+      throw e;
+    },
+    change: function change() {
+      this.onChange(this.state);
+    },
+    submit: function submit() {
+      this.error = undefined;
+
+      try {
+        var _this$onSubmit;
+
+        (_this$onSubmit = this.onSubmit(this.state)) === null || _this$onSubmit === void 0 ? void 0 : _this$onSubmit.catch(this.handleError);
+      } catch (e) {
+        this.handleError(e);
+      }
+    }
+  }
+});
+// CONCATENATED MODULE: ./src/Form.vue?vue&type=script&lang=js
+ 
+// CONCATENATED MODULE: ./src/Form.vue
 
 
 
+Formvue_type_script_lang_js.render = render
 
-var Fieldvue_type_template_id_152f0faa_hoisted_1 = {
+/* harmony default export */ var Form = (Formvue_type_script_lang_js);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Field.vue?vue&type=template&id=3442ca62
+
+
+
+var Fieldvue_type_template_id_3442ca62_hoisted_1 = {
   class: "input-wrapper"
 };
-var Fieldvue_type_template_id_152f0faa_hoisted_2 = {
+var Fieldvue_type_template_id_3442ca62_hoisted_2 = {
   key: 1,
   class: "form-error"
 };
-var Fieldvue_type_template_id_152f0faa_hoisted_3 = {
+var Fieldvue_type_template_id_3442ca62_hoisted_3 = {
   key: 2,
   class: "description"
 };
-function Fieldvue_type_template_id_152f0faa_render(_ctx, _cache, $props, $setup, $data, $options) {
+function Fieldvue_type_template_id_3442ca62_render(_ctx, _cache, $props, $setup, $data, $options) {
   return $props.field.ui.tagName !== 'ur-hidden' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", {
     key: 0,
     class: $options.css.root
   }, [$options.showLabel($props.field) ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("label", {
     key: 0,
     for: $props.field.id
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.title), 9, ["for"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", Fieldvue_type_template_id_152f0faa_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDynamicComponent"])($props.field.ui.tagName), {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.title), 9, ["for"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", Fieldvue_type_template_id_3442ca62_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDynamicComponent"])($props.field.ui.tagName), {
     field: $props.field,
     modelValue: $props.modelValue,
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function (value) {
-      return $props.change($props.field.name, value);
+      return _ctx.$emit('update:modelValue', value);
     })
-  }, null, 8, ["field", "modelValue"]))]), $options.error ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", Fieldvue_type_template_id_152f0faa_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($options.error), 1)) : $props.field.description ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", Fieldvue_type_template_id_152f0faa_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.description), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
+  }, null, 8, ["field", "modelValue"]))]), $options.error ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", Fieldvue_type_template_id_3442ca62_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($options.error), 1)) : $props.field.description ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", Fieldvue_type_template_id_3442ca62_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.description), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
 }
-// CONCATENATED MODULE: ./src/Field.vue?vue&type=template&id=152f0faa
+// CONCATENATED MODULE: ./src/Field.vue?vue&type=template&id=3442ca62
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Checkbox.vue?vue&type=template&id=ded82274
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Field.vue?vue&type=script&lang=js
 
-function Checkboxvue_type_template_id_ded82274_render(_ctx, _cache, $props, $setup, $data, $options) {
+
+/* harmony default export */ var Fieldvue_type_script_lang_js = ({
+  inject: ['ur_form'],
+  props: {
+    field: Object,
+    form: Object,
+    modelValue: null,
+    change: Function
+  },
+  computed: {
+    error: function error() {
+      var _this$ur_form$errors;
+
+      return (_this$ur_form$errors = this.ur_form.errors) === null || _this$ur_form$errors === void 0 ? void 0 : _this$ur_form$errors[this.field.name];
+    },
+    css: function css() {
+      return {
+        root: ["form-group form-group__".concat(this.field.name), {
+          '-error': this.error
+        }]
+      };
+    }
+  },
+  methods: {
+    showLabel: function showLabel(field) {
+      return field.title && field.name !== '__root' && !['ur-checkbox'].includes(field.ui.tagName);
+    }
+  }
+});
+// CONCATENATED MODULE: ./src/Field.vue?vue&type=script&lang=js
+ 
+// CONCATENATED MODULE: ./src/Field.vue
+
+
+
+Fieldvue_type_script_lang_js.render = Fieldvue_type_template_id_3442ca62_render
+
+/* harmony default export */ var Field = (Fieldvue_type_script_lang_js);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Checkbox.vue?vue&type=template&id=e8805244
+
+function Checkboxvue_type_template_id_e8805244_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("label", {
     class: $options.css
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("input", {
     type: "checkbox",
     id: $props.field.id,
     checked: $props.modelValue,
-    onChange: _cache[1] || (_cache[1] = function () {
+    onInput: _cache[1] || (_cache[1] = function () {
       return $options.onChange && $options.onChange.apply($options, arguments);
     })
   }, null, 40, ["id", "checked"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.title), 1)], 2);
 }
-// CONCATENATED MODULE: ./src/widgets/Checkbox.vue?vue&type=template&id=ded82274
+// CONCATENATED MODULE: ./src/widgets/Checkbox.vue?vue&type=template&id=e8805244
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Checkbox.vue?vue&type=script&lang=js
 /* harmony default export */ var Checkboxvue_type_script_lang_js = ({
@@ -4559,14 +4853,11 @@ function Checkboxvue_type_template_id_ded82274_render(_ctx, _cache, $props, $set
 
 
 
-Checkboxvue_type_script_lang_js.render = Checkboxvue_type_template_id_ded82274_render
+Checkboxvue_type_script_lang_js.render = Checkboxvue_type_template_id_e8805244_render
 
 /* harmony default export */ var Checkbox = (Checkboxvue_type_script_lang_js);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.split.js
 var es_string_split = __webpack_require__("1276");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.exec.js
-var es_regexp_exec = __webpack_require__("ac1f");
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Image.vue?vue&type=template&id=38936b3e
 
@@ -4673,6 +4964,62 @@ function Imagevue_type_template_id_38936b3e_render(_ctx, _cache, $props, $setup,
 Imagevue_type_script_lang_js.render = Imagevue_type_template_id_38936b3e_render
 
 /* harmony default export */ var Image = (Imagevue_type_script_lang_js);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Object.vue?vue&type=template&id=21801af2
+
+
+function Objectvue_type_template_id_21801af2_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_ur_field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ur-field");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])($options.children, function (child) {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ur_field, {
+      key: child.id,
+      field: child,
+      modelValue: $props.modelValue[child.name],
+      "onUpdate:modelValue": function onUpdateModelValue($event) {
+        return $props.modelValue[child.name] = $event;
+      }
+    }, null, 8, ["field", "modelValue", "onUpdate:modelValue"]);
+  }), 128);
+}
+// CONCATENATED MODULE: ./src/widgets/Object.vue?vue&type=template&id=21801af2
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.map.js
+var es_array_map = __webpack_require__("d81d");
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Object.vue?vue&type=script&lang=js
+
+
+
+
+/* harmony default export */ var Objectvue_type_script_lang_js = ({
+  inject: ['ur_form'],
+  props: {
+    field: Object,
+    modelValue: Object
+  },
+  computed: {
+    children: function children() {
+      var _this = this;
+
+      return Object.entries(this.field.properties).map(function (_ref) {
+        var _ref2 = _slicedToArray(_ref, 2),
+            name = _ref2[0],
+            property = _ref2[1];
+
+        return prepField(name, property, _this.ur_form);
+      });
+    }
+  }
+});
+// CONCATENATED MODULE: ./src/widgets/Object.vue?vue&type=script&lang=js
+ 
+// CONCATENATED MODULE: ./src/widgets/Object.vue
+
+
+
+Objectvue_type_script_lang_js.render = Objectvue_type_template_id_21801af2_render
+
+/* harmony default export */ var widgets_Object = (Objectvue_type_script_lang_js);
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Range.vue?vue&type=template&id=39d89537
 
 var Rangevue_type_template_id_39d89537_hoisted_1 = {
@@ -4732,12 +5079,12 @@ var lodash_pick_default = /*#__PURE__*/__webpack_require__.n(lodash_pick);
 Rangevue_type_script_lang_js.render = Rangevue_type_template_id_39d89537_render
 
 /* harmony default export */ var Range = (Rangevue_type_script_lang_js);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Select.vue?vue&type=template&id=018d5b7a
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Select.vue?vue&type=template&id=22452516
 
 
-function Selectvue_type_template_id_018d5b7a_render(_ctx, _cache, $props, $setup, $data, $options) {
+function Selectvue_type_template_id_22452516_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("select", {
-    onChange: _cache[1] || (_cache[1] = function () {
+    onInput: _cache[1] || (_cache[1] = function () {
       return $options.onChange && $options.onChange.apply($options, arguments);
     }),
     value: $props.modelValue,
@@ -4750,7 +5097,7 @@ function Selectvue_type_template_id_018d5b7a_render(_ctx, _cache, $props, $setup
     }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(choice.name), 9, ["value"]);
   }), 128))], 40, ["value", "id"]);
 }
-// CONCATENATED MODULE: ./src/widgets/Select.vue?vue&type=template&id=018d5b7a
+// CONCATENATED MODULE: ./src/widgets/Select.vue?vue&type=template&id=22452516
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Select.vue?vue&type=script&lang=js
 
@@ -4784,7 +5131,7 @@ function Selectvue_type_template_id_018d5b7a_render(_ctx, _cache, $props, $setup
 
 
 
-Selectvue_type_script_lang_js.render = Selectvue_type_template_id_018d5b7a_render
+Selectvue_type_script_lang_js.render = Selectvue_type_template_id_22452516_render
 
 /* harmony default export */ var Select = (Selectvue_type_script_lang_js);
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Text.vue?vue&type=template&id=328446d8
@@ -4858,157 +5205,27 @@ var coerce = function coerce(value) {
 Textvue_type_script_lang_js.render = Textvue_type_template_id_328446d8_render
 
 /* harmony default export */ var Text = (Textvue_type_script_lang_js);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Field.vue?vue&type=script&lang=js
-
-
-
-
-
-
-
-/* harmony default export */ var Fieldvue_type_script_lang_js = ({
-  components: {
-    UrCheckbox: Checkbox,
-    UrImage: Image,
-    UrRange: Range,
-    UrSelect: Select,
-    UrText: Text
-  },
-  inject: ['ur_form'],
-  props: {
-    field: Object,
-    form: Object,
-    modelValue: null,
-    change: Function
-  },
-  computed: {
-    error: function error() {
-      var _this$ur_form$errors;
-
-      return (_this$ur_form$errors = this.ur_form.errors) === null || _this$ur_form$errors === void 0 ? void 0 : _this$ur_form$errors[this.field.name];
-    },
-    css: function css() {
-      return {
-        root: ["form-group form-group__".concat(this.field.name), {
-          '-error': this.error
-        }]
-      };
-    }
-  },
-  methods: {
-    showLabel: function showLabel(field) {
-      return field.title && !['ur-checkbox'].includes(field.ui.tagName);
-    }
-  }
-});
-// CONCATENATED MODULE: ./src/Field.vue?vue&type=script&lang=js
- 
-// CONCATENATED MODULE: ./src/Field.vue
-
-
-
-Fieldvue_type_script_lang_js.render = Fieldvue_type_template_id_152f0faa_render
-
-/* harmony default export */ var Field = (Fieldvue_type_script_lang_js);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Form.vue?vue&type=script&lang=js
-
-
-
-
-
-/* harmony default export */ var Formvue_type_script_lang_js = ({
-  components: {
-    Field: Field
-  },
-  provide: function provide() {
-    return {
-      ur_form: this
-    };
-  },
-  props: {
-    schema: Object,
-    uiSchema: Object,
-    state: {
-      type: Object,
-      default: function _default() {
-        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({});
-      }
-    },
-    onSubmit: {
-      type: Function,
-      default: function _default() {}
-    },
-    onChange: {
-      type: Function,
-      default: function _default() {}
-    },
-    errors: Object
-  },
-  data: function data() {
-    return {
-      error: null
-    };
-  },
-  computed: {
-    fields: function fields() {
-      return prepFields(this.schema, this.uiSchema);
-    },
-    root_error: function root_error() {
-      var _this$errors;
-
-      return this.error || ((_this$errors = this.errors) === null || _this$errors === void 0 ? void 0 : _this$errors.__all__);
-    }
-  },
-  beforeMount: function beforeMount() {
-    var state = this.state,
-        fields = this.fields;
-    fields.forEach(function (field) {
-      if (!state.hasOwnProperty(field.name)) {
-        state[field.name] = field.default;
-      }
-    });
-  },
-  methods: {
-    handleError: function handleError(e) {
-      throw e;
-    },
-    change: function change(name, value) {
-      this.state[name] = value; // eslint-disable-line
-
-      this.onChange(this.state, {
-        name: name,
-        value: value
-      });
-    },
-    submit: function submit() {
-      this.error = undefined;
-
-      try {
-        var _this$onSubmit;
-
-        (_this$onSubmit = this.onSubmit(this.state)) === null || _this$onSubmit === void 0 ? void 0 : _this$onSubmit.catch(this.handleError);
-      } catch (e) {
-        this.handleError(e);
-      }
-    }
-  }
-});
-// CONCATENATED MODULE: ./src/Form.vue?vue&type=script&lang=js
- 
-// CONCATENATED MODULE: ./src/Form.vue
-
-
-
-Formvue_type_script_lang_js.render = render
-
-/* harmony default export */ var Form = (Formvue_type_script_lang_js);
 // CONCATENATED MODULE: ./src/index.js
 
 
+
+
+
+
+
+
+
 /* harmony default export */ var src_0 = ({
-  prepFields: prepFields,
+  prepField: prepField,
   install: function install(app) {
     app.component('ur-form', Form);
+    app.component('ur-field', Field);
+    app.component('ur-checkbox', Checkbox);
+    app.component('ur-image', Image);
+    app.component('ur-object', widgets_Object);
+    app.component('ur-range', Range);
+    app.component('ur-select', Select);
+    app.component('ur-text', Text);
   }
 });
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
