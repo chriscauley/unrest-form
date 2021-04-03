@@ -1,6 +1,6 @@
 <template>
   <label :class="css">
-    <input type="checkbox" :id="field.id" :checked="modelValue" @change="onChange" />
+    <input type="checkbox" :id="field.id" :checked="modelValue" @input="onChange" />
     {{ field.title }}
   </label>
 </template>

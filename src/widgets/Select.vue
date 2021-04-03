@@ -1,5 +1,5 @@
 <template>
-  <select @change="onChange" :value="modelValue" :id="field.id" class="form-control">
+  <select @input="onChange" :value="modelValue" :id="field.id" class="form-control">
     <option v-for="choice in choices" :value="choice.value" :key="choice.name">
       {{ choice.name }}
     </option>

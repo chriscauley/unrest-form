@@ -8,6 +8,7 @@ module.exports = {
   },
   rules: {
     'no-prototype-builtins': 'off',
+    'no-console': ['error', { allow: ['warn', 'error'] }],
     'prettier/prettier': [
       'error',
       {

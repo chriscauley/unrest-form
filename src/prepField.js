@@ -1,5 +1,7 @@
 const getDefaultTagName = field => {
-  if (field.enum) {
+  if (field.type === 'object') {
+    return 'ur-object'
+  } else if (field.enum) {
     return 'ur-select'
   } else if (field.type === 'boolean') {
     return 'ur-checkbox'
@@ -22,14 +24,21 @@ const prepUi = (field, global_ui) => {
   return Object.assign(default_ui, global_ui[field.name], field.ui)
 }
 
-export default (schema, global_ui = {}) => {
-  return Object.entries(schema.properties).map(([name, { ...field }]) => {
-    field.name = name
-    field.id = `id__${field.name}`
-    field.ui = prepUi(field, global_ui)
-    if (!field.title) {
-      field.title = field.name[0].toUpperCase() + field.name.slice(1)
-    }
-    return field
-  })
+const toSentenceCase = s => {
+  // convert camelCase and snake_case to Sentence case
+  s = s
+    .replace(/([A-Z])/g, ' $1')
+    .toLowerCase()
+    .replace(/_/g, ' ')
+  return s[0].toUpperCase() + s.slice(1)
+}
+
+export default (name, { ...field }, { ui: global_ui = {} } = {}) => {
+  field.name = name
+  field.id = `id__${field.name}`
+  field.ui = prepUi(field, global_ui)
+  if (!field.title) {
+    field.title = toSentenceCase(field.name)
+  }
+  return field
 }

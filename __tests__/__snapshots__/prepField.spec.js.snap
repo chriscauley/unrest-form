@@ -1,0 +1,149 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`prepField 1`] = `
+Object {
+  "id": "id__name",
+  "name": "name",
+  "title": "Name",
+  "type": "text",
+  "ui": Object {
+    "tagName": "ur-text",
+    "type": "text",
+  },
+}
+`;
+
+exports[`prepField 2`] = `
+Object {
+  "id": "id__age",
+  "name": "age",
+  "title": "Age",
+  "type": "number",
+  "ui": Object {
+    "tagName": "ur-text",
+    "type": "number",
+  },
+}
+`;
+
+exports[`prepField 3`] = `
+Object {
+  "enum": Array [
+    "red",
+    "green",
+    "blue",
+  ],
+  "id": "id__color",
+  "name": "color",
+  "title": "Color",
+  "type": "text",
+  "ui": Object {
+    "tagName": "ur-select",
+    "type": "text",
+  },
+}
+`;
+
+exports[`prepField 4`] = `
+Object {
+  "format": "color",
+  "id": "id__colorPicker",
+  "name": "colorPicker",
+  "title": "Color picker",
+  "type": "text",
+  "ui": Object {
+    "tagName": "ur-color",
+    "type": "text",
+  },
+}
+`;
+
+exports[`prepField 5`] = `
+Object {
+  "id": "id__newsletter",
+  "name": "newsletter",
+  "title": "Sign up for our newsletter",
+  "type": "boolean",
+  "ui": Object {
+    "tagName": "ur-checkbox",
+    "type": "text",
+  },
+}
+`;
+
+exports[`prepField 6`] = `
+Object {
+  "default": "https://i.imgur.com/YSPe6yA.jpg",
+  "id": "id__avatar",
+  "name": "avatar",
+  "title": "Avatar",
+  "type": "image",
+  "ui": Object {
+    "tagName": "ur-image",
+    "type": "text",
+  },
+}
+`;
+
+exports[`prepField 7`] = `
+Object {
+  "default": "Foo",
+  "id": "id__hidden",
+  "name": "hidden",
+  "title": "Shouldn't see me",
+  "type": "string",
+  "ui": Object {
+    "tagName": "ur-hidden",
+    "type": "text",
+  },
+}
+`;
+
+exports[`prepField 8`] = `
+Object {
+  "default": "I am a password field",
+  "id": "id__password",
+  "name": "password",
+  "title": "Password",
+  "type": "string",
+  "ui": Object {
+    "tagName": "ur-text",
+    "type": "password",
+  },
+}
+`;
+
+exports[`prepField 9`] = `
+Object {
+  "default": "I am not a password field",
+  "id": "id__password_hint",
+  "name": "password_hint",
+  "title": "Password hint",
+  "type": "string",
+  "ui": Object {
+    "tagName": "ur-text",
+    "type": "text",
+  },
+}
+`;
+
+exports[`prepField 10`] = `
+Object {
+  "id": "id__address",
+  "name": "address",
+  "properties": Object {
+    "city": Object {
+      "type": "string",
+    },
+    "street": Object {
+      "type": "string",
+    },
+  },
+  "title": "Address",
+  "type": "object",
+  "ui": Object {
+    "tagName": "ur-object",
+    "type": "text",
+  },
+}
+`;

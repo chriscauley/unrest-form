@@ -1,13 +1,7 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
   <form @submit.prevent="submit" class="ur-form">
-    <Field
-      v-model="state[field.name]"
-      v-for="field in fields"
-      :key="field.id"
-      :field="field"
-      :change="change"
-    />
+    <ur-field v-model="state" :field="field" :key="field.id" />
     <div v-if="root_error" class="form-error">
       {{ root_error }}
     </div>
@@ -20,12 +14,10 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
-import prepFields from './prepFields'
-import Field from './Field'
+import assignDefaults from './assignDefaults'
+import prepField from './prepField'
 
 export default {
-  components: { Field },
   provide() {
     return { ur_form: this }
   },
@@ -34,7 +26,7 @@ export default {
     uiSchema: Object,
     state: {
       type: Object,
-      default: () => reactive({}),
+      default: () => ({}),
     },
     onSubmit: {
       type: Function,
@@ -48,28 +40,22 @@ export default {
   },
   data: () => ({ error: null }),
   computed: {
-    fields() {
-      return prepFields(this.schema, this.uiSchema)
-    },
     root_error() {
       return this.error || this.errors?.__all__
     },
+    field() {
+      return prepField('__root', this.schema)
+    },
   },
   beforeMount() {
-    const { state, fields } = this
-    fields.forEach(field => {
-      if (!state.hasOwnProperty(field.name)) {
-        state[field.name] = field.default
-      }
-    })
+    assignDefaults(this.state, this.schema)
   },
   methods: {
     handleError(e) {
       throw e
     },
-    change(name, value) {
-      this.state[name] = value // eslint-disable-line
-      this.onChange(this.state, { name, value })
+    change() {
+      this.onChange(this.state)
     },
     submit() {
       this.error = undefined

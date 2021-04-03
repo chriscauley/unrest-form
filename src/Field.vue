@@ -6,7 +6,7 @@
         v-is="field.ui.tagName"
         :field="field"
         :modelValue="modelValue"
-        @update:modelValue="value => change(field.name, value)"
+        @update:modelValue="value => $emit('update:modelValue', value)"
       />
     </div>
     <div v-if="error" class="form-error">
@@ -19,14 +19,7 @@
 </template>
 
 <script>
-import UrCheckbox from './widgets/Checkbox'
-import UrImage from './widgets/Image'
-import UrRange from './widgets/Range'
-import UrSelect from './widgets/Select'
-import UrText from './widgets/Text'
-
 export default {
-  components: { UrCheckbox, UrImage, UrRange, UrSelect, UrText },
   inject: ['ur_form'],
   props: {
     field: Object,
@@ -46,7 +39,7 @@ export default {
   },
   methods: {
     showLabel(field) {
-      return field.title && !['ur-checkbox'].includes(field.ui.tagName)
+      return field.title && field.name !== '__root' && !['ur-checkbox'].includes(field.ui.tagName)
     },
   },
 }
