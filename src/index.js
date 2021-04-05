@@ -7,7 +7,7 @@ import UrRange from './widgets/Range'
 import UrSelect from './widgets/Select'
 import UrText from './widgets/Text'
 
-import prepField from './prepField'
+import prepField from './lib/prepField'
 
 export default {
   prepField,

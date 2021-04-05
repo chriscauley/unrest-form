@@ -1,3 +1,5 @@
+import Str from './Str'
+
 const getDefaultTagName = field => {
   if (field.type === 'object') {
     return 'ur-object'
@@ -24,21 +26,16 @@ const prepUi = (field, global_ui) => {
   return Object.assign(default_ui, global_ui[field.name], field.ui)
 }
 
-const toSentenceCase = s => {
-  // convert camelCase and snake_case to Sentence case
-  s = s
-    .replace(/([A-Z])/g, ' $1')
-    .toLowerCase()
-    .replace(/_/g, ' ')
-  return s[0].toUpperCase() + s.slice(1)
-}
-
-export default (name, { ...field }, { ui: global_ui = {} } = {}) => {
+export default (name, { ...field }, { ui: global_ui = {} } = {}, path = []) => {
   field.name = name
   field.id = `id__${field.name}`
   field.ui = prepUi(field, global_ui)
   if (!field.title) {
-    field.title = toSentenceCase(field.name)
+    field.title = Str.toSentenceCase(field.name)
+  }
+  field.__path = path.slice()
+  if (name !== '__root') {
+    field.__path.push(field.name)
   }
   return field
 }

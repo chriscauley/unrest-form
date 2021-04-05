@@ -1,4 +1,4 @@
-import prepField from '@/prepField'
+import prepField from '@/lib/prepField'
 import schema from '@demo/schema'
 
 test('prepField', () => {

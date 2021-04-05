@@ -1,4 +1,4 @@
-import assignDefaults from '@/assignDefaults'
+import assignDefaults from '@/lib/assignDefaults'
 
 test('shallow test', () => {
   const schema = {

@@ -2,8 +2,8 @@
 <template>
   <form @submit.prevent="submit" class="ur-form">
     <ur-field v-model="state" :field="field" :key="field.id" />
-    <div v-if="root_error" class="form-error">
-      {{ root_error }}
+    <div v-if="errors?.__root" class="form-error">
+      {{ errors.__root }}
     </div>
     <div class="ur-form__actions">
       <slot name="actions">
@@ -14,8 +14,9 @@
 </template>
 
 <script>
-import assignDefaults from './assignDefaults'
-import prepField from './prepField'
+import validateAgainstSchema from './lib/validateAgainstSchema'
+import assignDefaults from './lib/assignDefaults'
+import prepField from './lib/prepField'
 
 export default {
   provide() {
@@ -36,9 +37,8 @@ export default {
       type: Function,
       default: () => {},
     },
-    errors: Object,
   },
-  data: () => ({ error: null }),
+  data: () => ({ errors: null }),
   computed: {
     root_error() {
       return this.error || this.errors?.__all__
@@ -52,13 +52,17 @@ export default {
   },
   methods: {
     handleError(e) {
+      this.errors = { __root: e.message || e }
       throw e
     },
     change() {
       this.onChange(this.state)
     },
     submit() {
-      this.error = undefined
+      this.errors = validateAgainstSchema(this.state, this.schema)
+      if (this.errors) {
+        return
+      }
       try {
         this.onSubmit(this.state)?.catch(this.handleError)
       } catch (e) {

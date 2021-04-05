@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import prepField from '../prepField'
+import prepField from '../lib/prepField'
 
 export default {
   inject: ['ur_form'],
@@ -20,7 +20,7 @@ export default {
   computed: {
     children() {
       return Object.entries(this.field.properties).map(([name, property]) =>
-        prepField(name, property, this.ur_form),
+        prepField(name, property, this.ur_form, this.field.__path),
       )
     },
   },

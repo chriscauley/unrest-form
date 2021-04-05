@@ -16,6 +16,9 @@ export default {
   emits: ['update:modelValue'],
   computed: {
     choices() {
+      if (this.field.getChoices) {
+        return this.field.getChoices()
+      }
       const names = this.field.enumNames || this.field.enum
       return this.field.enum.map((value, i) => ({
         value,

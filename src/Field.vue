@@ -29,7 +29,7 @@ export default {
   },
   computed: {
     error() {
-      return this.ur_form.errors?.[this.field.name]
+      return this.ur_form.errors?.[this.field.__path.join('.')]
     },
     css() {
       return {
