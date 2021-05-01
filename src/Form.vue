@@ -1,9 +1,9 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
   <form @submit.prevent="submit" class="ur-form">
-    <ur-field v-model="state" :field="field" :key="field.id" />
-    <div v-if="errors?.__root" class="form-error">
-      {{ errors.__root }}
+    <ur-field v-model="state" :field="field" :key="field.id" @change="change" />
+    <div v-for="error in computed_errors?.__root" class="form-error">
+      {{ error.message }}
     </div>
     <div class="ur-form__actions">
       <slot name="actions">
@@ -37,11 +37,19 @@ export default {
       type: Function,
       default: () => {},
     },
+    errors: Object,
   },
-  data: () => ({ errors: null }),
+  data: () => ({ internal_errors: null }),
   computed: {
-    root_error() {
-      return this.error || this.errors?.__all__
+    computed_errors() {
+      const errors = {
+        ...this.errors,
+        ...this.internal_errors,
+      }
+      if (errors.__all__) {
+        errors.__root = errors.__all__
+      }
+      return errors
     },
     field() {
       return prepField('__root', this.schema)
@@ -52,15 +60,15 @@ export default {
   },
   methods: {
     handleError(e) {
-      this.errors = { __root: e.message || e }
+      this.internal_errors = { __root: e.message || e }
       throw e
     },
     change() {
       this.onChange(this.state)
     },
     submit() {
-      this.errors = validateAgainstSchema(this.state, this.schema)
-      if (this.errors) {
+      this.internal_errors = validateAgainstSchema(this.state, this.schema)
+      if (this.internal_errors) {
         return
       }
       try {

@@ -1,7 +1,6 @@
 import { Validator } from 'jsonschema'
 
 export const deepRemoveEmpty = obj => {
-  // copied fromhttps://www.javaer101.com/en/article/57550001.html
   const new_object = {}
 
   Object.entries(obj).forEach(([key, value]) => {
@@ -13,7 +12,6 @@ export const deepRemoveEmpty = obj => {
       return
     }
 
-    // call twice in case the result returned is iteslf an empty object,
     const result = deepRemoveEmpty(value)
     if (Object.keys(result).length > 0) {
       new_object[key] = result
