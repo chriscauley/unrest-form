@@ -7884,7 +7884,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Form.vue?vue&type=template&id=76ab863c
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Form.vue?vue&type=template&id=5af3bbce
 
 var _hoisted_1 = {
   class: "form-error"
@@ -7922,7 +7922,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return [_hoisted_3];
   })])], 32);
 }
-// CONCATENATED MODULE: ./src/Form.vue?vue&type=template&id=76ab863c
+// CONCATENATED MODULE: ./src/Form.vue?vue&type=template&id=5af3bbce
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.keys.js
 var es_object_keys = __webpack_require__("b64b");
@@ -8367,9 +8367,20 @@ var prepUi = function prepUi(field, global_ui) {
   },
   methods: {
     handleError: function handleError(e) {
-      this.internal_errors = {
-        __root: e.message || e
-      };
+      var _e$response, _e$response$data;
+
+      if (e.message) {
+        this.internal_errors = {
+          __root: e.message || e
+        };
+      }
+
+      if ((_e$response = e.response) !== null && _e$response !== void 0 && (_e$response$data = _e$response.data) !== null && _e$response$data !== void 0 && _e$response$data.errors) {
+        var _e$response2, _e$response2$data;
+
+        this.internal_errors = (_e$response2 = e.response) === null || _e$response2 === void 0 ? void 0 : (_e$response2$data = _e$response2.data) === null || _e$response2$data === void 0 ? void 0 : _e$response2$data.errors;
+      }
+
       throw e;
     },
     change: function change() {
@@ -8401,37 +8412,37 @@ var prepUi = function prepUi(field, global_ui) {
 Formvue_type_script_lang_js.render = render
 
 /* harmony default export */ var Form = (Formvue_type_script_lang_js);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Field.vue?vue&type=template&id=49a6a422
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Field.vue?vue&type=template&id=1564a230
 
 
 
-var Fieldvue_type_template_id_49a6a422_hoisted_1 = {
+var Fieldvue_type_template_id_1564a230_hoisted_1 = {
   class: "input-wrapper"
 };
-var Fieldvue_type_template_id_49a6a422_hoisted_2 = {
+var Fieldvue_type_template_id_1564a230_hoisted_2 = {
   key: 1,
   class: "form-error"
 };
-var Fieldvue_type_template_id_49a6a422_hoisted_3 = {
+var Fieldvue_type_template_id_1564a230_hoisted_3 = {
   key: 2,
   class: "description"
 };
-function Fieldvue_type_template_id_49a6a422_render(_ctx, _cache, $props, $setup, $data, $options) {
+function Fieldvue_type_template_id_1564a230_render(_ctx, _cache, $props, $setup, $data, $options) {
   return $props.field.ui.tagName !== 'ur-hidden' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", {
     key: 0,
     class: $options.css.root
   }, [$options.showLabel($props.field) ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("label", {
     key: 0,
     for: $props.field.id
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.title), 9, ["for"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", Fieldvue_type_template_id_49a6a422_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDynamicComponent"])($props.field.ui.tagName), {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.title), 9, ["for"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", Fieldvue_type_template_id_1564a230_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDynamicComponent"])($props.field.ui.tagName), {
     field: $props.field,
     modelValue: $props.modelValue,
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function (value) {
       return _ctx.$emit('update:modelValue', value);
     })
-  }, null, 8, ["field", "modelValue"]))]), $options.error ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", Fieldvue_type_template_id_49a6a422_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($options.error), 1)) : $props.field.description ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", Fieldvue_type_template_id_49a6a422_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.description), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
+  }, null, 8, ["field", "modelValue"]))]), $options.error ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", Fieldvue_type_template_id_1564a230_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($options.error), 1)) : $props.field.description ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", Fieldvue_type_template_id_1564a230_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.description), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
 }
-// CONCATENATED MODULE: ./src/Field.vue?vue&type=template&id=49a6a422
+// CONCATENATED MODULE: ./src/Field.vue?vue&type=template&id=1564a230
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Field.vue?vue&type=script&lang=js
 
@@ -8447,9 +8458,9 @@ function Fieldvue_type_template_id_49a6a422_render(_ctx, _cache, $props, $setup,
   },
   computed: {
     error: function error() {
-      var _this$ur_form$errors;
+      var _this$ur_form$interna;
 
-      return (_this$ur_form$errors = this.ur_form.errors) === null || _this$ur_form$errors === void 0 ? void 0 : _this$ur_form$errors[this.field.__path.join('.')];
+      return (_this$ur_form$interna = this.ur_form.internal_errors) === null || _this$ur_form$interna === void 0 ? void 0 : _this$ur_form$interna[this.field.__path.join('.')];
     },
     css: function css() {
       return {
@@ -8471,7 +8482,7 @@ function Fieldvue_type_template_id_49a6a422_render(_ctx, _cache, $props, $setup,
 
 
 
-Fieldvue_type_script_lang_js.render = Fieldvue_type_template_id_49a6a422_render
+Fieldvue_type_script_lang_js.render = Fieldvue_type_template_id_1564a230_render
 
 /* harmony default export */ var Field = (Fieldvue_type_script_lang_js);
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Checkbox.vue?vue&type=template&id=e8805244

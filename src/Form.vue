@@ -60,7 +60,12 @@ export default {
   },
   methods: {
     handleError(e) {
-      this.internal_errors = { __root: e.message || e }
+      if (e.message) {
+        this.internal_errors = { __root: e.message || e }
+      }
+      if (e.response?.data?.errors) {
+        this.internal_errors = e.response?.data?.errors
+      }
       throw e
     },
     change() {
