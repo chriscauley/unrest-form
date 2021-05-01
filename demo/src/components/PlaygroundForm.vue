@@ -2,10 +2,10 @@
   <div class="playground-form">
     <div class="playground-form__schema">
       <div>Form schema</div>
-      <textarea v-model="text_schema" />
       <div v-if="error" class="alert alert-danger">
         {{ error.message }}
       </div>
+      <textarea v-model="text_schema" />
     </div>
     <div class="playground-form__form">
       <div>Form</div>

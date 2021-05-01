@@ -1,5 +1,6 @@
 export default {
   type: 'object',
+  required: ['name'],
   properties: {
     name: {
       type: 'text',
@@ -41,6 +42,7 @@ export default {
     },
     address: {
       type: 'object',
+      required: ['street'],
       properties: {
         street: {
           type: 'string',
