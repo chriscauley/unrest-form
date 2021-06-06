@@ -2,7 +2,7 @@
 <template>
   <form @submit.prevent="submit" class="ur-form">
     <ur-field v-model="state" :field="field" :key="field.id" @change="change" />
-    <div v-for="error in computed_errors?.__root" class="form-error">
+    <div v-for="(error, i) in computed_errors?.__root" :key="i" class="form-error">
       {{ error.message }}
     </div>
     <div class="ur-form__actions">

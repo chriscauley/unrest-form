@@ -1,24 +1,33 @@
-import UrForm from './Form'
-import UrField from './Field'
-import UrCheckbox from './widgets/Checkbox'
-import UrImage from './widgets/Image'
-import UrObject from './widgets/Object'
-import UrRange from './widgets/Range'
-import UrSelect from './widgets/Select'
-import UrText from './widgets/Text'
+import Form from './Form'
+import Field from './Field'
+import Checkbox from './widgets/Checkbox'
+import Image from './widgets/Image'
+import Object_ from './widgets/Object'
+import Range from './widgets/Range'
+import Select from './widgets/Select'
+import Text from './widgets/Text'
 
 import prepField from './lib/prepField'
+import quickSchema from './lib/quickSchema'
+
+const components = { Form, Field, Checkbox, Object: Object_, Range, Select, Text }
+const prefix = 'Ur' // TODO make this configurable
+
+const plugin = {
+  install: app => {
+    Object.entries(components).forEach(
+      ([name, component]) => app.component(prefix + name, component)
+    )
+  }
+}
 
 export default {
   prepField,
+  quickSchema,
+  plugin,
+  ...components,
   install: app => {
-    app.component('ur-form', UrForm)
-    app.component('ur-field', UrField)
-    app.component('ur-checkbox', UrCheckbox)
-    app.component('ur-image', UrImage)
-    app.component('ur-object', UrObject)
-    app.component('ur-range', UrRange)
-    app.component('ur-select', UrSelect)
-    app.component('ur-text', UrText)
+    console.warn("DEPRACATED: Use UrForm.plugin")
+    app.use(plugin)
   },
 }

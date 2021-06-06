@@ -1,15 +1,14 @@
 <template>
-  <playground-form :schema="schema" />
+  <div class="unrest-app-root">
+    <app-nav />
+    <router-view />
+  </div>
 </template>
 
 <script>
-import PlaygroundForm from '@/components/PlaygroundForm'
-import schema from './schema'
+import AppNav from '@/components/Nav'
 
 export default {
-  components: { PlaygroundForm },
-  data() {
-    return { schema }
-  },
+  components: { AppNav },
 }
 </script>
