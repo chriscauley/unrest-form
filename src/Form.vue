@@ -56,7 +56,7 @@ export default {
     },
   },
   beforeMount() {
-    assignDefaults(this.state, this.schema)
+    assignDefaults(this.state, this.field)
   },
   methods: {
     handleError(e) {

@@ -1,4 +1,5 @@
 import Str from './Str'
+import parseLazySchema from './parseLazySchema'
 
 const getDefaultTagName = field => {
   if (field.type === 'object') {
@@ -27,6 +28,9 @@ const prepUi = (field, global_ui) => {
 }
 
 export default (name, { ...field }, { ui: global_ui = {} } = {}, path = []) => {
+  if (field.type === 'lazy') {
+    field = parseLazySchema(field)
+  }
   field.name = name
   field.id = `id__${field.name}`
   field.ui = prepUi(field, global_ui)

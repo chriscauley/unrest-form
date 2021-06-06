@@ -8,26 +8,26 @@ import Select from './widgets/Select'
 import Text from './widgets/Text'
 
 import prepField from './lib/prepField'
-import quickSchema from './lib/quickSchema'
+import parseLazySchema from './lib/parseLazySchema'
 
-const components = { Form, Field, Checkbox, Object: Object_, Range, Select, Text }
+const components = { Form, Field, Checkbox, Image, Object: Object_, Range, Select, Text }
 const prefix = 'Ur' // TODO make this configurable
 
 const plugin = {
   install: app => {
-    Object.entries(components).forEach(
-      ([name, component]) => app.component(prefix + name, component)
+    Object.entries(components).forEach(([name, component]) =>
+      app.component(prefix + name, component),
     )
-  }
+  },
 }
 
 export default {
   prepField,
-  quickSchema,
+  parseLazySchema,
   plugin,
   ...components,
   install: app => {
-    console.warn("DEPRACATED: Use UrForm.plugin")
+    console.warn('DEPRACATED: Use UrForm.plugin')
     app.use(plugin)
   },
 }
