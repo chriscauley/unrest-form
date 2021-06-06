@@ -15,7 +15,7 @@
 <script>
 const tabs = [
   ['/', 'Basics'],
-  ['/quickSchema/', 'quickSchema'],
+  ['/lazy/', 'Lazy'],
 ]
 
 export default {

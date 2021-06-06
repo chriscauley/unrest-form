@@ -11,11 +11,15 @@
       <div>Form</div>
       <ur-form v-bind="form_attrs" @input="sync" @change="sync" />
     </div>
-    <div class="playground-result">
+    <div class="playground-result" v-if="panels.includes('state')">
       <div>Form State</div>
       <div class="playground-result__body">
         {{ text_state }}
       </div>
+    </div>
+    <div class="playgroup-result" v-if="panels.includes('schema')">
+      <div>Resulting schema</div>
+      <pre>{{ parsed_schema }}</pre>
     </div>
   </div>
 </template>
@@ -29,12 +33,19 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    panels: {
+      type: Array,
+      default: () => ['editor', 'form', 'state'],
+    },
   },
   data() {
     const text_schema = JSON.stringify(this.schema, null, 4)
     return { text_schema, current_schema: this.schema, error: null, text_state: null }
   },
   computed: {
+    parsed_schema() {
+      return JSON.stringify(UrForm.prepField('__root', this.current_schema), null, 4)
+    },
     form_attrs() {
       const { current_schema, state } = this
       return { schema: current_schema, state }

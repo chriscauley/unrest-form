@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import UrForm from '@unrest/form'
-import "@unrest/tailwind/dist.css";
+import '@unrest/tailwind/dist.css'
 
 import PlaygroundForm from '@/components/PlaygroundForm'
 import './styles/base.scss'
