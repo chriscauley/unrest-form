@@ -7881,49 +7881,6 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
-var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
-
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Form.vue?vue&type=template&id=5af3bbce
-
-var _hoisted_1 = {
-  class: "form-error"
-};
-var _hoisted_2 = {
-  class: "ur-form__actions"
-};
-
-var _hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("button", {
-  type: "submit",
-  class: "btn -primary"
-}, "Submit", -1);
-
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _$options$computed_er;
-
-  var _component_ur_field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ur-field");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("form", {
-    onSubmit: _cache[2] || (_cache[2] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function () {
-      return $options.submit && $options.submit.apply($options, arguments);
-    }, ["prevent"])),
-    class: "ur-form"
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ur_field, {
-    modelValue: $props.state,
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-      return $props.state = $event;
-    }),
-    field: $options.field,
-    key: $options.field.id,
-    onChange: $options.change
-  }, null, 8, ["modelValue", "field", "onChange"]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])((_$options$computed_er = $options.computed_errors) === null || _$options$computed_er === void 0 ? void 0 : _$options$computed_er.__root, function (error) {
-    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", _hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(error.message), 1);
-  }), 256)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", _hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "actions", {}, function () {
-    return [_hoisted_3];
-  })])], 32);
-}
-// CONCATENATED MODULE: ./src/Form.vue?vue&type=template&id=5af3bbce
-
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.keys.js
 var es_object_keys = __webpack_require__("b64b");
 
@@ -7999,20 +7956,9 @@ function _objectSpread2(target) {
 
   return target;
 }
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
 }
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.description.js
 var es_symbol_description = __webpack_require__("e01a");
@@ -8032,58 +7978,6 @@ var es_array_iterator = __webpack_require__("e260");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.iterator.js
 var web_dom_collections_iterator = __webpack_require__("ddb0");
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.from.js
-var es_array_from = __webpack_require__("a630");
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-
-
-
-
-
-
-
-
-function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
-}
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.slice.js
-var es_array_slice = __webpack_require__("fb6a");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
-var es_function_name = __webpack_require__("b0c0");
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-
-
-
-
-
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-
-
-
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
 
 
@@ -8118,6 +8012,40 @@ function _iterableToArrayLimit(arr, i) {
 
   return _arr;
 }
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.slice.js
+var es_array_slice = __webpack_require__("fb6a");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
+var es_function_name = __webpack_require__("b0c0");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.from.js
+var es_array_from = __webpack_require__("a630");
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
+  }
+
+  return arr2;
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
+
+
+
+
+
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
 function _nonIterableRest() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
@@ -8133,6 +8061,78 @@ function _slicedToArray(arr, i) {
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.entries.js
 var es_object_entries = __webpack_require__("4fad");
 
+// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
+var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Form.vue?vue&type=template&id=2eef9722
+
+var _hoisted_1 = {
+  class: "ur-form__actions"
+};
+
+var _hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("button", {
+  type: "submit",
+  class: "btn -primary"
+}, "Submit", -1);
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _$options$computed_er;
+
+  var _component_ur_field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ur-field");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("form", {
+    onSubmit: _cache[2] || (_cache[2] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function () {
+      return $options.submit && $options.submit.apply($options, arguments);
+    }, ["prevent"])),
+    class: "ur-form"
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ur_field, {
+    modelValue: $props.state,
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $props.state = $event;
+    }),
+    field: $options.field,
+    key: $options.field.id,
+    onChange: $options.change
+  }, null, 8, ["modelValue", "field", "onChange"]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])((_$options$computed_er = $options.computed_errors) === null || _$options$computed_er === void 0 ? void 0 : _$options$computed_er.__root, function (error, i) {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", {
+      key: i,
+      class: "form-error"
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(error.message), 1);
+  }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "actions", {}, function () {
+    return [_hoisted_2];
+  })])], 32);
+}
+// CONCATENATED MODULE: ./src/Form.vue?vue&type=template&id=2eef9722
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
+
+
+
+
+
+
+
+
+function _iterableToArray(iter) {
+  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
+
+
+
+
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+}
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.concat.js
 var es_array_concat = __webpack_require__("99af");
 
@@ -8248,7 +8248,86 @@ var es_regexp_exec = __webpack_require__("ac1f");
     return s[0].toUpperCase() + s.slice(1);
   }
 });
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/typeof.js
+
+
+
+
+
+
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+// CONCATENATED MODULE: ./src/lib/parseLazySchema.js
+
+
+
+
+var TYPES = ['number', 'string', 'boolean'];
+
+var parseLazySchema_parseLazySchema = function parseLazySchema(schema) {
+  if (schema === null || schema === undefined) {
+    return {}; // jsonschema's "any" type
+  }
+
+  for (var i = 0; i < TYPES.length; i++) {
+    if (_typeof(schema) === TYPES[i]) {
+      return {
+        default: schema,
+        type: TYPES[i]
+      };
+    }
+  }
+
+  if (Array.isArray(schema)) {
+    return {
+      type: 'array',
+      default: schema,
+      items: parseLazySchema(schema[0])
+    };
+  }
+
+  if (schema.type === 'lazy') {
+    var properties = {};
+    Object.entries(schema).forEach(function (_ref) {
+      var _ref2 = _slicedToArray(_ref, 2),
+          key = _ref2[0],
+          value = _ref2[1];
+
+      return properties[key] = parseLazySchema(value);
+    });
+    delete properties.type;
+    return {
+      type: 'object',
+      properties: properties
+    };
+  } // anything with type already specified is considered valid schema
+  // TODO is there a safe way to recurse down this structure?
+
+
+  if (schema.type) {
+    return schema;
+  }
+
+  throw 'Unrecognized schema object for parseLazySchema';
+};
+
+/* harmony default export */ var lib_parseLazySchema = (parseLazySchema_parseLazySchema);
 // CONCATENATED MODULE: ./src/lib/prepField.js
+
 
 
 
@@ -8297,6 +8376,11 @@ var prepUi = function prepUi(field, global_ui) {
       global_ui = _ref2$ui === void 0 ? {} : _ref2$ui;
 
   var path = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
+
+  if (field.type === 'lazy') {
+    field = lib_parseLazySchema(field);
+  }
+
   field.name = name;
   field.id = "id__".concat(field.name);
   field.ui = prepUi(field, global_ui);
@@ -8363,7 +8447,7 @@ var prepUi = function prepUi(field, global_ui) {
     }
   },
   beforeMount: function beforeMount() {
-    lib_assignDefaults(this.state, this.schema);
+    lib_assignDefaults(this.state, this.field);
   },
   methods: {
     handleError: function handleError(e) {
@@ -8423,7 +8507,7 @@ var Fieldvue_type_template_id_1564a230_hoisted_2 = {
   key: 1,
   class: "form-error"
 };
-var Fieldvue_type_template_id_1564a230_hoisted_3 = {
+var _hoisted_3 = {
   key: 2,
   class: "description"
 };
@@ -8440,7 +8524,7 @@ function Fieldvue_type_template_id_1564a230_render(_ctx, _cache, $props, $setup,
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function (value) {
       return _ctx.$emit('update:modelValue', value);
     })
-  }, null, 8, ["field", "modelValue"]))]), $options.error ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", Fieldvue_type_template_id_1564a230_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($options.error), 1)) : $props.field.description ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", Fieldvue_type_template_id_1564a230_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.description), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
+  }, null, 8, ["field", "modelValue"]))]), $options.error ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", Fieldvue_type_template_id_1564a230_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($options.error), 1)) : $props.field.description ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", _hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.description), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
 }
 // CONCATENATED MODULE: ./src/Field.vue?vue&type=template&id=1564a230
 
@@ -8910,19 +8994,44 @@ Textvue_type_script_lang_js.render = Textvue_type_template_id_328446d8_render
 
 
 
-/* harmony default export */ var src_0 = ({
-  prepField: prepField,
+
+
+
+
+
+var components = {
+  Form: Form,
+  Field: Field,
+  Checkbox: Checkbox,
+  Image: Image,
+  Object: widgets_Object,
+  Range: Range,
+  Select: Select,
+  Text: Text
+};
+var prefix = 'Ur'; // TODO make this configurable
+
+var src_plugin = {
   install: function install(app) {
-    app.component('ur-form', Form);
-    app.component('ur-field', Field);
-    app.component('ur-checkbox', Checkbox);
-    app.component('ur-image', Image);
-    app.component('ur-object', widgets_Object);
-    app.component('ur-range', Range);
-    app.component('ur-select', Select);
-    app.component('ur-text', Text);
+    Object.entries(components).forEach(function (_ref) {
+      var _ref2 = _slicedToArray(_ref, 2),
+          name = _ref2[0],
+          component = _ref2[1];
+
+      return app.component(prefix + name, component);
+    });
   }
-});
+};
+/* harmony default export */ var src_0 = (_objectSpread2(_objectSpread2({
+  prepField: prepField,
+  parseLazySchema: lib_parseLazySchema,
+  plugin: src_plugin
+}, components), {}, {
+  install: function install(app) {
+    console.warn('DEPRACATED: Use UrForm.plugin');
+    app.use(src_plugin);
+  }
+}));
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
 
 

@@ -1,7 +1,7 @@
 {
   "name": "@unrest/form",
   "author": "Chris Cauley <cauley.chris@gmail.com>",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "dist/form.common.js",
   "license": "MIT",
   "scripts": {
