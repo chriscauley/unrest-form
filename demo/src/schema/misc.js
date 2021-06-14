@@ -1,7 +1,12 @@
 export default {
   type: 'lazy',
-  name: {
+  last_name: {
+    type: 'string',
+    description: 'title=undefined will guess a title from name',
+  },
+  first_name: {
     type: 'string',
     title: null,
+    description: 'title=null will show no title',
   },
 }
