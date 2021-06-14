@@ -74,3 +74,9 @@ html, body, #app, .playground-form, .playground-form__schema textarea {
     max-width: 50%;
   }
 }
+
+.playground-log {
+  &__event {
+    @apply flex;
+  }
+}

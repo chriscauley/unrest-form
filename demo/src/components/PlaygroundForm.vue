@@ -9,7 +9,7 @@
     </div>
     <div class="playground-form__form">
       <div>Form</div>
-      <ur-form v-bind="form_attrs" @input="sync" @change="sync" />
+      <ur-form v-bind="form_attrs" @input="input" @change="change" @submit="submit" />
     </div>
     <div class="playground-result" v-if="panels.includes('state')">
       <div>Form State</div>
@@ -17,9 +17,20 @@
         {{ text_state }}
       </div>
     </div>
-    <div class="playgroup-result" v-if="panels.includes('schema')">
+    <div class="playground-result" v-if="panels.includes('schema')">
       <div>Resulting schema</div>
       <pre>{{ parsed_schema }}</pre>
+    </div>
+  </div>
+  <div class="playground-form">
+    <div class="playgroud-result">
+      <div>Events</div>
+      <ul>
+        <li v-for="(event, i) in events" :key="i" class="playground-log__event">
+          <div>{{ event.message }}</div>
+          <div v-if="event.count" class="pill pill-primary">{{ event.count }}</div>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -40,7 +51,7 @@ export default {
   },
   data() {
     const text_schema = JSON.stringify(this.schema, null, 4)
-    return { text_schema, current_schema: this.schema, error: null, text_state: null }
+    return { text_schema, current_schema: this.schema, error: null, text_state: null, events: [] }
   },
   computed: {
     parsed_schema() {
@@ -58,6 +69,24 @@ export default {
     text_schema: 'sync',
   },
   methods: {
+    log(event) {
+      const last = this.events[this.events.length - 1]
+      if (last?.message === event.message) {
+        last.count = (last.count || 0) + 1
+      } else {
+        this.events.push(event)
+      }
+      this.sync()
+    },
+    input(e) {
+      this.log({ type: 'input', message: `input@${e.target.name}` })
+    },
+    change(e) {
+      this.log({ type: 'change', message: `change@${e.target.name}` })
+    },
+    submit() {
+      this.log({ type: 'submit', message: 'submit' })
+    },
     sync() {
       this.error = null
       try {

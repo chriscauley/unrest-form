@@ -33,10 +33,7 @@ export default {
       type: Function,
       default: () => {},
     },
-    onChange: {
-      type: Function,
-      default: () => {},
-    },
+    onChange: Function,
     errors: Object,
   },
   data: () => ({ internal_errors: null }),
@@ -68,8 +65,8 @@ export default {
       }
       throw e
     },
-    change() {
-      this.onChange(this.state)
+    change(e) {
+      this.onChange?.(e)
     },
     submit() {
       this.internal_errors = validateAgainstSchema(this.state, this.schema)

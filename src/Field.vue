@@ -25,7 +25,6 @@ export default {
     field: Object,
     form: Object,
     modelValue: null,
-    change: Function,
   },
   computed: {
     error() {
