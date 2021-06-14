@@ -34,7 +34,7 @@ export default (name, { ...field }, { ui: global_ui = {} } = {}, path = []) => {
   field.name = name
   field.id = `id__${field.name}`
   field.ui = prepUi(field, global_ui)
-  if (!field.title) {
+  if (field.title === undefined) {
     field.title = Str.toSentenceCase(field.name)
   }
   field.__path = path.slice()

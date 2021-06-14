@@ -16,6 +16,7 @@
 const tabs = [
   ['/', 'Basics'],
   ['/lazy/', 'Lazy'],
+  ['/misc/', 'Misc'],
 ]
 
 export default {
