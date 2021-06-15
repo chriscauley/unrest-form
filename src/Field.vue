@@ -1,5 +1,5 @@
 <template>
-  <div :class="css.root" v-if="field.ui.tagName !== 'ur-hidden'">
+  <div :class="css.root" v-if="field.ui.tagName !== 'unrest-hidden'">
     <label v-if="showLabel(field)" :for="field.id">{{ field.title }}</label>
     <div class="input-wrapper">
       <div
@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     showLabel(field) {
-      return field.title && field.name !== '__root' && !['ur-checkbox'].includes(field.ui.tagName)
+      return field.title && field.name !== '__root' && !['unrest-checkbox'].includes(field.ui.tagName)
     },
   },
 }

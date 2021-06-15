@@ -29,7 +29,7 @@ export default {
       type: 'string',
       title: "Shouldn't see me",
       default: 'Foo',
-      ui: { tagName: 'ur-hidden' },
+      ui: { tagName: 'unrest-hidden' },
     },
     password: {
       type: 'string',

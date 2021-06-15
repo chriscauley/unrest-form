@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
   <form @submit.prevent="submit" class="ur-form">
-    <ur-field v-model="state" :field="field" :key="field.id" @change="change" />
+    <unrest-field v-model="state" :field="field" :key="field.id" @change="change" />
     <div v-for="(error, i) in computed_errors?.__root" :key="i" class="form-error">
       {{ error.message }}
     </div>

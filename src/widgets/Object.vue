@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <ur-field
+  <unrest-field
     v-for="child in children"
     :key="child.id"
     :field="child"

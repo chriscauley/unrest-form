@@ -3,17 +3,17 @@ import parseLazySchema from './parseLazySchema'
 
 const getDefaultTagName = field => {
   if (field.type === 'object') {
-    return 'ur-object'
+    return 'unrest-object'
   } else if (field.enum) {
-    return 'ur-select'
+    return 'unrest-select'
   } else if (field.type === 'boolean') {
-    return 'ur-checkbox'
+    return 'unrest-checkbox'
   } else if (field.type === 'image') {
-    return 'ur-image'
+    return 'unrest-image'
   } else if (field.format === 'color') {
-    return 'ur-color'
+    return 'unrest-color'
   }
-  return 'ur-text'
+  return 'unrest-text'
 }
 
 const prepUi = (field, global_ui) => {

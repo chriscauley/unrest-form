@@ -9,7 +9,7 @@
     </div>
     <div class="playground-form__form">
       <div>Form</div>
-      <ur-form v-bind="form_attrs" @input="input" @change="change" @submit="submit" />
+      <unrest-form v-bind="form_attrs" @input="input" @change="change" @submit="submit" />
     </div>
     <div class="playground-result" v-if="panels.includes('state')">
       <div>Form State</div>

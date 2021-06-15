@@ -8064,7 +8064,7 @@ var es_object_entries = __webpack_require__("4fad");
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Form.vue?vue&type=template&id=2eef9722
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Form.vue?vue&type=template&id=3a9d8ff6
 
 var _hoisted_1 = {
   class: "ur-form__actions"
@@ -8078,14 +8078,14 @@ var _hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vu
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _$options$computed_er;
 
-  var _component_ur_field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ur-field");
+  var _component_unrest_field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("unrest-field");
 
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("form", {
     onSubmit: _cache[2] || (_cache[2] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function () {
       return $options.submit && $options.submit.apply($options, arguments);
     }, ["prevent"])),
     class: "ur-form"
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ur_field, {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_unrest_field, {
     modelValue: $props.state,
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $props.state = $event;
@@ -8102,7 +8102,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return [_hoisted_2];
   })])], 32);
 }
-// CONCATENATED MODULE: ./src/Form.vue?vue&type=template&id=2eef9722
+// CONCATENATED MODULE: ./src/Form.vue?vue&type=template&id=3a9d8ff6
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
 
@@ -8337,18 +8337,18 @@ var parseLazySchema_parseLazySchema = function parseLazySchema(schema) {
 
 var getDefaultTagName = function getDefaultTagName(field) {
   if (field.type === 'object') {
-    return 'ur-object';
+    return 'unrest-object';
   } else if (field.enum) {
-    return 'ur-select';
+    return 'unrest-select';
   } else if (field.type === 'boolean') {
-    return 'ur-checkbox';
+    return 'unrest-checkbox';
   } else if (field.type === 'image') {
-    return 'ur-image';
+    return 'unrest-image';
   } else if (field.format === 'color') {
-    return 'ur-color';
+    return 'unrest-color';
   }
 
-  return 'ur-text';
+  return 'unrest-text';
 };
 
 var prepUi = function prepUi(field, global_ui) {
@@ -8385,7 +8385,7 @@ var prepUi = function prepUi(field, global_ui) {
   field.id = "id__".concat(field.name);
   field.ui = prepUi(field, global_ui);
 
-  if (!field.title) {
+  if (field.title === undefined) {
     field.title = Str.toSentenceCase(field.name);
   }
 
@@ -8421,10 +8421,7 @@ var prepUi = function prepUi(field, global_ui) {
       type: Function,
       default: function _default() {}
     },
-    onChange: {
-      type: Function,
-      default: function _default() {}
-    },
+    onChange: Function,
     errors: Object
   },
   data: function data() {
@@ -8467,8 +8464,10 @@ var prepUi = function prepUi(field, global_ui) {
 
       throw e;
     },
-    change: function change() {
-      this.onChange(this.state);
+    change: function change(e) {
+      var _this$onChange;
+
+      (_this$onChange = this.onChange) === null || _this$onChange === void 0 ? void 0 : _this$onChange.call(this, e);
     },
     submit: function submit() {
       this.internal_errors = validateAgainstSchema(this.state, this.schema);
@@ -8496,14 +8495,14 @@ var prepUi = function prepUi(field, global_ui) {
 Formvue_type_script_lang_js.render = render
 
 /* harmony default export */ var Form = (Formvue_type_script_lang_js);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Field.vue?vue&type=template&id=1564a230
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Field.vue?vue&type=template&id=d25ce108
 
 
 
-var Fieldvue_type_template_id_1564a230_hoisted_1 = {
+var Fieldvue_type_template_id_d25ce108_hoisted_1 = {
   class: "input-wrapper"
 };
-var Fieldvue_type_template_id_1564a230_hoisted_2 = {
+var Fieldvue_type_template_id_d25ce108_hoisted_2 = {
   key: 1,
   class: "form-error"
 };
@@ -8511,22 +8510,22 @@ var _hoisted_3 = {
   key: 2,
   class: "description"
 };
-function Fieldvue_type_template_id_1564a230_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return $props.field.ui.tagName !== 'ur-hidden' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", {
+function Fieldvue_type_template_id_d25ce108_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return $props.field.ui.tagName !== 'unrest-hidden' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", {
     key: 0,
     class: $options.css.root
   }, [$options.showLabel($props.field) ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("label", {
     key: 0,
     for: $props.field.id
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.title), 9, ["for"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", Fieldvue_type_template_id_1564a230_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDynamicComponent"])($props.field.ui.tagName), {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.title), 9, ["for"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", Fieldvue_type_template_id_d25ce108_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDynamicComponent"])($props.field.ui.tagName), {
     field: $props.field,
     modelValue: $props.modelValue,
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function (value) {
       return _ctx.$emit('update:modelValue', value);
     })
-  }, null, 8, ["field", "modelValue"]))]), $options.error ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", Fieldvue_type_template_id_1564a230_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($options.error), 1)) : $props.field.description ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", _hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.description), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
+  }, null, 8, ["field", "modelValue"]))]), $options.error ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", Fieldvue_type_template_id_d25ce108_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($options.error), 1)) : $props.field.description ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", _hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.description), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
 }
-// CONCATENATED MODULE: ./src/Field.vue?vue&type=template&id=1564a230
+// CONCATENATED MODULE: ./src/Field.vue?vue&type=template&id=d25ce108
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Field.vue?vue&type=script&lang=js
 
@@ -8537,8 +8536,7 @@ function Fieldvue_type_template_id_1564a230_render(_ctx, _cache, $props, $setup,
   props: {
     field: Object,
     form: Object,
-    modelValue: null,
-    change: Function
+    modelValue: null
   },
   computed: {
     error: function error() {
@@ -8556,7 +8554,7 @@ function Fieldvue_type_template_id_1564a230_render(_ctx, _cache, $props, $setup,
   },
   methods: {
     showLabel: function showLabel(field) {
-      return field.title && field.name !== '__root' && !['ur-checkbox'].includes(field.ui.tagName);
+      return field.title && field.name !== '__root' && !['unrest-checkbox'].includes(field.ui.tagName);
     }
   }
 });
@@ -8566,7 +8564,7 @@ function Fieldvue_type_template_id_1564a230_render(_ctx, _cache, $props, $setup,
 
 
 
-Fieldvue_type_script_lang_js.render = Fieldvue_type_template_id_1564a230_render
+Fieldvue_type_script_lang_js.render = Fieldvue_type_template_id_d25ce108_render
 
 /* harmony default export */ var Field = (Fieldvue_type_script_lang_js);
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Checkbox.vue?vue&type=template&id=e8805244
@@ -8739,14 +8737,14 @@ function Imagevue_type_template_id_38936b3e_render(_ctx, _cache, $props, $setup,
 Imagevue_type_script_lang_js.render = Imagevue_type_template_id_38936b3e_render
 
 /* harmony default export */ var Image = (Imagevue_type_script_lang_js);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Object.vue?vue&type=template&id=5aa9f638
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Object.vue?vue&type=template&id=3750dce8
 
 
-function Objectvue_type_template_id_5aa9f638_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_ur_field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ur-field");
+function Objectvue_type_template_id_3750dce8_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_unrest_field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("unrest-field");
 
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])($options.children, function (child) {
-    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ur_field, {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_unrest_field, {
       key: child.id,
       field: child,
       modelValue: $props.modelValue[child.name],
@@ -8756,7 +8754,7 @@ function Objectvue_type_template_id_5aa9f638_render(_ctx, _cache, $props, $setup
     }, null, 8, ["field", "modelValue", "onUpdate:modelValue"]);
   }), 128);
 }
-// CONCATENATED MODULE: ./src/widgets/Object.vue?vue&type=template&id=5aa9f638
+// CONCATENATED MODULE: ./src/widgets/Object.vue?vue&type=template&id=3750dce8
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.map.js
 var es_array_map = __webpack_require__("d81d");
@@ -8792,7 +8790,7 @@ var es_array_map = __webpack_require__("d81d");
 
 
 
-Objectvue_type_script_lang_js.render = Objectvue_type_template_id_5aa9f638_render
+Objectvue_type_script_lang_js.render = Objectvue_type_template_id_3750dce8_render
 
 /* harmony default export */ var widgets_Object = (Objectvue_type_script_lang_js);
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Range.vue?vue&type=template&id=39d89537
@@ -9009,8 +9007,7 @@ var components = {
   Select: Select,
   Text: Text
 };
-var prefix = 'Ur'; // TODO make this configurable
-
+var prefix = 'Unrest';
 var src_plugin = {
   install: function install(app) {
     Object.entries(components).forEach(function (_ref) {

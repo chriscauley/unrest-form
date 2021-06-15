@@ -11,10 +11,10 @@ import prepField from './lib/prepField'
 import parseLazySchema from './lib/parseLazySchema'
 
 const components = { Form, Field, Checkbox, Image, Object: Object_, Range, Select, Text }
-const prefix = 'Ur' // TODO make this configurable
+const prefix = 'Unrest'
 
 const plugin = {
-  install: app => {
+  install: (app) => {
     Object.entries(components).forEach(([name, component]) =>
       app.component(prefix + name, component),
     )
