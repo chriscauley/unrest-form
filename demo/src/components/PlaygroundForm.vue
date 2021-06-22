@@ -78,10 +78,10 @@ export default {
       }
       this.sync()
     },
-    input(e) {
+    input(_state, e) {
       this.log({ type: 'input', message: `input@${e.target.name}` })
     },
-    change(e) {
+    change(_state, e) {
       this.log({ type: 'change', message: `change@${e.target.name}` })
     },
     submit() {

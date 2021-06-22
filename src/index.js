@@ -14,7 +14,7 @@ const components = { Form, Field, Checkbox, Image, Object: Object_, Range, Selec
 const prefix = 'Unrest'
 
 const plugin = {
-  install: (app) => {
+  install: app => {
     Object.entries(components).forEach(([name, component]) =>
       app.component(prefix + name, component),
     )

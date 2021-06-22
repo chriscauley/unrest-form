@@ -38,7 +38,9 @@ export default {
   },
   methods: {
     showLabel(field) {
-      return field.title && field.name !== '__root' && !['unrest-checkbox'].includes(field.ui.tagName)
+      return (
+        field.title && field.name !== '__root' && !['unrest-checkbox'].includes(field.ui.tagName)
+      )
     },
   },
 }

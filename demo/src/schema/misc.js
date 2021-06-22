@@ -9,4 +9,5 @@ export default {
     title: null,
     description: 'title=null will show no title',
   },
+  terms_and_conditions: true,
 }

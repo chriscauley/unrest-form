@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
   <form @submit.prevent="submit" class="ur-form">
-    <unrest-field v-model="state" :field="field" :key="field.id" @change="change" />
+    <unrest-field v-model="state" :field="field" :key="field.id" @change="change" @input="input" />
     <div v-for="(error, i) in computed_errors?.__root" :key="i" class="form-error">
       {{ error.message }}
     </div>
@@ -29,11 +29,9 @@ export default {
       type: Object,
       default: () => ({}),
     },
-    onSubmit: {
-      type: Function,
-      default: () => {},
-    },
+    onSubmit: Function,
     onChange: Function,
+    onInput: Function,
     errors: Object,
   },
   data: () => ({ internal_errors: null }),
@@ -56,27 +54,30 @@ export default {
     assignDefaults(this.state, this.field)
   },
   methods: {
-    handleError(e) {
-      if (e.message) {
-        this.internal_errors = { __root: e.message || e }
+    handleError(error) {
+      if (error.message) {
+        this.internal_errors = { __root: error.message || error }
       }
-      if (e.response?.data?.errors) {
-        this.internal_errors = e.response?.data?.errors
+      if (error.response?.data?.errors) {
+        this.internal_errors = error.response?.data?.errors
       }
-      throw e
+      throw error
     },
-    change(e) {
-      this.onChange?.(e)
+    change(event) {
+      this.onChange?.(this.state, event)
     },
-    submit() {
+    input(event) {
+      this.onInput?.(this.state, event)
+    },
+    submit(event) {
       this.internal_errors = validateAgainstSchema(this.state, this.schema)
       if (this.internal_errors) {
         return
       }
       try {
-        this.onSubmit(this.state)?.catch(this.handleError)
-      } catch (e) {
-        this.handleError(e)
+        this.onSubmit(this.state, event)?.catch(this.handleError)
+      } catch (error) {
+        this.handleError(error)
       }
     },
   },
