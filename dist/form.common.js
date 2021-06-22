@@ -8064,7 +8064,7 @@ var es_object_entries = __webpack_require__("4fad");
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Form.vue?vue&type=template&id=3a9d8ff6
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Form.vue?vue&type=template&id=39150b0a
 
 var _hoisted_1 = {
   class: "ur-form__actions"
@@ -8092,8 +8092,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     field: $options.field,
     key: $options.field.id,
-    onChange: $options.change
-  }, null, 8, ["modelValue", "field", "onChange"]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])((_$options$computed_er = $options.computed_errors) === null || _$options$computed_er === void 0 ? void 0 : _$options$computed_er.__root, function (error, i) {
+    onChange: $options.change,
+    onInput: $options.input
+  }, null, 8, ["modelValue", "field", "onChange", "onInput"]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])((_$options$computed_er = $options.computed_errors) === null || _$options$computed_er === void 0 ? void 0 : _$options$computed_er.__root, function (error, i) {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", {
       key: i,
       class: "form-error"
@@ -8102,7 +8103,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return [_hoisted_2];
   })])], 32);
 }
-// CONCATENATED MODULE: ./src/Form.vue?vue&type=template&id=3a9d8ff6
+// CONCATENATED MODULE: ./src/Form.vue?vue&type=template&id=39150b0a
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
 
@@ -8417,11 +8418,9 @@ var prepUi = function prepUi(field, global_ui) {
         return {};
       }
     },
-    onSubmit: {
-      type: Function,
-      default: function _default() {}
-    },
+    onSubmit: Function,
     onChange: Function,
+    onInput: Function,
     errors: Object
   },
   data: function data() {
@@ -8447,29 +8446,34 @@ var prepUi = function prepUi(field, global_ui) {
     lib_assignDefaults(this.state, this.field);
   },
   methods: {
-    handleError: function handleError(e) {
-      var _e$response, _e$response$data;
+    handleError: function handleError(error) {
+      var _error$response, _error$response$data;
 
-      if (e.message) {
+      if (error.message) {
         this.internal_errors = {
-          __root: e.message || e
+          __root: error.message || error
         };
       }
 
-      if ((_e$response = e.response) !== null && _e$response !== void 0 && (_e$response$data = _e$response.data) !== null && _e$response$data !== void 0 && _e$response$data.errors) {
-        var _e$response2, _e$response2$data;
+      if ((_error$response = error.response) !== null && _error$response !== void 0 && (_error$response$data = _error$response.data) !== null && _error$response$data !== void 0 && _error$response$data.errors) {
+        var _error$response2, _error$response2$data;
 
-        this.internal_errors = (_e$response2 = e.response) === null || _e$response2 === void 0 ? void 0 : (_e$response2$data = _e$response2.data) === null || _e$response2$data === void 0 ? void 0 : _e$response2$data.errors;
+        this.internal_errors = (_error$response2 = error.response) === null || _error$response2 === void 0 ? void 0 : (_error$response2$data = _error$response2.data) === null || _error$response2$data === void 0 ? void 0 : _error$response2$data.errors;
       }
 
-      throw e;
+      throw error;
     },
-    change: function change(e) {
+    change: function change(event) {
       var _this$onChange;
 
-      (_this$onChange = this.onChange) === null || _this$onChange === void 0 ? void 0 : _this$onChange.call(this, e);
+      (_this$onChange = this.onChange) === null || _this$onChange === void 0 ? void 0 : _this$onChange.call(this, this.state, event);
     },
-    submit: function submit() {
+    input: function input(event) {
+      var _this$onInput;
+
+      (_this$onInput = this.onInput) === null || _this$onInput === void 0 ? void 0 : _this$onInput.call(this, this.state, event);
+    },
+    submit: function submit(event) {
       this.internal_errors = validateAgainstSchema(this.state, this.schema);
 
       if (this.internal_errors) {
@@ -8479,9 +8483,9 @@ var prepUi = function prepUi(field, global_ui) {
       try {
         var _this$onSubmit;
 
-        (_this$onSubmit = this.onSubmit(this.state)) === null || _this$onSubmit === void 0 ? void 0 : _this$onSubmit.catch(this.handleError);
-      } catch (e) {
-        this.handleError(e);
+        (_this$onSubmit = this.onSubmit(this.state, event)) === null || _this$onSubmit === void 0 ? void 0 : _this$onSubmit.catch(this.handleError);
+      } catch (error) {
+        this.handleError(error);
       }
     }
   }
@@ -8495,14 +8499,14 @@ var prepUi = function prepUi(field, global_ui) {
 Formvue_type_script_lang_js.render = render
 
 /* harmony default export */ var Form = (Formvue_type_script_lang_js);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Field.vue?vue&type=template&id=d25ce108
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Field.vue?vue&type=template&id=0b0510df
 
 
 
-var Fieldvue_type_template_id_d25ce108_hoisted_1 = {
+var Fieldvue_type_template_id_0b0510df_hoisted_1 = {
   class: "input-wrapper"
 };
-var Fieldvue_type_template_id_d25ce108_hoisted_2 = {
+var Fieldvue_type_template_id_0b0510df_hoisted_2 = {
   key: 1,
   class: "form-error"
 };
@@ -8510,22 +8514,22 @@ var _hoisted_3 = {
   key: 2,
   class: "description"
 };
-function Fieldvue_type_template_id_d25ce108_render(_ctx, _cache, $props, $setup, $data, $options) {
+function Fieldvue_type_template_id_0b0510df_render(_ctx, _cache, $props, $setup, $data, $options) {
   return $props.field.ui.tagName !== 'unrest-hidden' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", {
     key: 0,
     class: $options.css.root
   }, [$options.showLabel($props.field) ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("label", {
     key: 0,
     for: $props.field.id
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.title), 9, ["for"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", Fieldvue_type_template_id_d25ce108_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDynamicComponent"])($props.field.ui.tagName), {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.title), 9, ["for"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", Fieldvue_type_template_id_0b0510df_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDynamicComponent"])($props.field.ui.tagName), {
     field: $props.field,
     modelValue: $props.modelValue,
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function (value) {
       return _ctx.$emit('update:modelValue', value);
     })
-  }, null, 8, ["field", "modelValue"]))]), $options.error ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", Fieldvue_type_template_id_d25ce108_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($options.error), 1)) : $props.field.description ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", _hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.description), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
+  }, null, 8, ["field", "modelValue"]))]), $options.error ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", Fieldvue_type_template_id_0b0510df_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($options.error), 1)) : $props.field.description ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", _hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.description), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
 }
-// CONCATENATED MODULE: ./src/Field.vue?vue&type=template&id=d25ce108
+// CONCATENATED MODULE: ./src/Field.vue?vue&type=template&id=0b0510df
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Field.vue?vue&type=script&lang=js
 
@@ -8564,12 +8568,13 @@ function Fieldvue_type_template_id_d25ce108_render(_ctx, _cache, $props, $setup,
 
 
 
-Fieldvue_type_script_lang_js.render = Fieldvue_type_template_id_d25ce108_render
+Fieldvue_type_script_lang_js.render = Fieldvue_type_template_id_0b0510df_render
 
 /* harmony default export */ var Field = (Fieldvue_type_script_lang_js);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Checkbox.vue?vue&type=template&id=e8805244
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Checkbox.vue?vue&type=template&id=0cb7da22
 
-function Checkboxvue_type_template_id_e8805244_render(_ctx, _cache, $props, $setup, $data, $options) {
+
+function Checkboxvue_type_template_id_0cb7da22_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("label", {
     class: $options.css
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("input", {
@@ -8578,10 +8583,11 @@ function Checkboxvue_type_template_id_e8805244_render(_ctx, _cache, $props, $set
     checked: $props.modelValue,
     onInput: _cache[1] || (_cache[1] = function () {
       return $options.onChange && $options.onChange.apply($options, arguments);
-    })
-  }, null, 40, ["id", "checked"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.title), 1)], 2);
+    }),
+    name: $props.field.name
+  }, null, 40, ["id", "checked", "name"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.title), 1)], 2);
 }
-// CONCATENATED MODULE: ./src/widgets/Checkbox.vue?vue&type=template&id=e8805244
+// CONCATENATED MODULE: ./src/widgets/Checkbox.vue?vue&type=template&id=0cb7da22
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Checkbox.vue?vue&type=script&lang=js
 /* harmony default export */ var Checkboxvue_type_script_lang_js = ({
@@ -8626,7 +8632,7 @@ function Checkboxvue_type_template_id_e8805244_render(_ctx, _cache, $props, $set
 
 
 
-Checkboxvue_type_script_lang_js.render = Checkboxvue_type_template_id_e8805244_render
+Checkboxvue_type_script_lang_js.render = Checkboxvue_type_template_id_0cb7da22_render
 
 /* harmony default export */ var Checkbox = (Checkboxvue_type_script_lang_js);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.split.js
