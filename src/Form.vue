@@ -33,6 +33,7 @@ export default {
     onChange: Function,
     onInput: Function,
     errors: Object,
+    focus: Boolean,
   },
   data: () => ({ internal_errors: null }),
   computed: {
@@ -52,6 +53,10 @@ export default {
   },
   beforeMount() {
     assignDefaults(this.state, this.field)
+  },
+  mounted() {
+    const { focus=true } = this
+    this.focus && this.$el.querySelector('input')?.focus()
   },
   methods: {
     handleError(error) {
