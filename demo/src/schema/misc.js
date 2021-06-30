@@ -10,4 +10,8 @@ export default {
     description: 'title=null will show no title',
   },
   terms_and_conditions: true,
+  password: {
+    type: 'string',
+    format: 'password',
+  }
 }

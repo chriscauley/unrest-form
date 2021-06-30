@@ -2392,28 +2392,6 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
 
 /***/ }),
 
-/***/ "2532":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__("23e7");
-var notARegExp = __webpack_require__("5a34");
-var requireObjectCoercible = __webpack_require__("1d80");
-var correctIsRegExpLogic = __webpack_require__("ab13");
-
-// `String.prototype.includes` method
-// https://tc39.es/ecma262/#sec-string.prototype.includes
-$({ target: 'String', proto: true, forced: !correctIsRegExpLogic('includes') }, {
-  includes: function includes(searchString /* , position = 0 */) {
-    return !!~String(requireObjectCoercible(this))
-      .indexOf(notARegExp(searchString), arguments.length > 1 ? arguments[1] : undefined);
-  }
-});
-
-
-/***/ }),
-
 /***/ "294c":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3385,20 +3363,6 @@ module.exports = {
   // `String.prototype.trim` method
   // https://tc39.es/ecma262/#sec-string.prototype.trim
   trim: createMethod(3)
-};
-
-
-/***/ }),
-
-/***/ "5a34":
-/***/ (function(module, exports, __webpack_require__) {
-
-var isRegExp = __webpack_require__("44e7");
-
-module.exports = function (it) {
-  if (isRegExp(it)) {
-    throw TypeError("The method doesn't accept regular expressions");
-  } return it;
 };
 
 
@@ -6587,28 +6551,6 @@ if (isForced(NUMBER, !NativeNumber(' 0o1') || !NativeNumber('0b1') || NativeNumb
 
 /***/ }),
 
-/***/ "ab13":
-/***/ (function(module, exports, __webpack_require__) {
-
-var wellKnownSymbol = __webpack_require__("b622");
-
-var MATCH = wellKnownSymbol('match');
-
-module.exports = function (METHOD_NAME) {
-  var regexp = /./;
-  try {
-    '/./'[METHOD_NAME](regexp);
-  } catch (error1) {
-    try {
-      regexp[MATCH] = false;
-      return '/./'[METHOD_NAME](regexp);
-    } catch (error2) { /* empty */ }
-  } return false;
-};
-
-
-/***/ }),
-
 /***/ "ac1f":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8064,7 +8006,7 @@ var es_object_entries = __webpack_require__("4fad");
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Form.vue?vue&type=template&id=39150b0a
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Form.vue?vue&type=template&id=6be3ea90
 
 var _hoisted_1 = {
   class: "ur-form__actions"
@@ -8103,7 +8045,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return [_hoisted_2];
   })])], 32);
 }
-// CONCATENATED MODULE: ./src/Form.vue?vue&type=template&id=39150b0a
+// CONCATENATED MODULE: ./src/Form.vue?vue&type=template&id=6be3ea90
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
 
@@ -8223,12 +8165,6 @@ var assignDefaults_assignDefaults = function assignDefaults(state, schema) {
 };
 
 /* harmony default export */ var lib_assignDefaults = (assignDefaults_assignDefaults);
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.includes.js
-var es_array_includes = __webpack_require__("caad");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.includes.js
-var es_string_includes = __webpack_require__("2532");
-
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.assign.js
 var es_object_assign = __webpack_require__("cca6");
 
@@ -8334,8 +8270,6 @@ var parseLazySchema_parseLazySchema = function parseLazySchema(schema) {
 
 
 
-
-
 var getDefaultTagName = function getDefaultTagName(field) {
   if (field.type === 'object') {
     return 'unrest-object';
@@ -8347,6 +8281,8 @@ var getDefaultTagName = function getDefaultTagName(field) {
     return 'unrest-image';
   } else if (field.format === 'color') {
     return 'unrest-color';
+  } else if (field.format === 'password') {
+    return 'unrest-password';
   }
 
   return 'unrest-text';
@@ -8362,7 +8298,7 @@ var prepUi = function prepUi(field, global_ui) {
     default_ui.type = 'number';
   }
 
-  if (field.name.includes('password')) {
+  if (field.format === 'password') {
     default_ui.type = 'password';
   }
 
@@ -8421,7 +8357,8 @@ var prepUi = function prepUi(field, global_ui) {
     onSubmit: Function,
     onChange: Function,
     onInput: Function,
-    errors: Object
+    errors: Object,
+    focus: Boolean
   },
   data: function data() {
     return {
@@ -8444,6 +8381,13 @@ var prepUi = function prepUi(field, global_ui) {
   },
   beforeMount: function beforeMount() {
     lib_assignDefaults(this.state, this.field);
+  },
+  mounted: function mounted() {
+    var _this$$el$querySelect;
+
+    var _this$focus = this.focus,
+        focus = _this$focus === void 0 ? true : _this$focus;
+    this.focus && ((_this$$el$querySelect = this.$el.querySelector('input')) === null || _this$$el$querySelect === void 0 ? void 0 : _this$$el$querySelect.focus());
   },
   methods: {
     handleError: function handleError(error) {
@@ -8530,6 +8474,9 @@ function Fieldvue_type_template_id_0b0510df_render(_ctx, _cache, $props, $setup,
   }, null, 8, ["field", "modelValue"]))]), $options.error ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", Fieldvue_type_template_id_0b0510df_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($options.error), 1)) : $props.field.description ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", _hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.field.description), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
 }
 // CONCATENATED MODULE: ./src/Field.vue?vue&type=template&id=0b0510df
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.includes.js
+var es_array_includes = __webpack_require__("caad");
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Field.vue?vue&type=script&lang=js
 
@@ -8799,6 +8746,132 @@ var es_array_map = __webpack_require__("d81d");
 Objectvue_type_script_lang_js.render = Objectvue_type_template_id_3750dce8_render
 
 /* harmony default export */ var widgets_Object = (Objectvue_type_script_lang_js);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Password.vue?vue&type=template&id=2dc3b0ba
+
+var Passwordvue_type_template_id_2dc3b0ba_hoisted_1 = {
+  class: "input-group"
+};
+function Passwordvue_type_template_id_2dc3b0ba_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", Passwordvue_type_template_id_2dc3b0ba_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("input", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["mergeProps"])(_ctx.inputAttrs, {
+    onInput: _cache[1] || (_cache[1] = function () {
+      return _ctx.onChange && _ctx.onChange.apply(_ctx, arguments);
+    }),
+    class: "form-control",
+    type: $options.type
+  }), null, 16, ["type"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("i", {
+    class: $options.iconClass,
+    onClick: _cache[2] || (_cache[2] = function ($event) {
+      return $data.show_password = !$data.show_password;
+    })
+  }, null, 2)]);
+}
+// CONCATENATED MODULE: ./src/widgets/Password.vue?vue&type=template&id=2dc3b0ba
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Text.vue?vue&type=template&id=328446d8
+
+function Textvue_type_template_id_328446d8_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("input", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["mergeProps"])($options.inputAttrs, {
+    onInput: _cache[1] || (_cache[1] = function () {
+      return $options.onChange && $options.onChange.apply($options, arguments);
+    }),
+    class: "form-control"
+  }), null, 16);
+}
+// CONCATENATED MODULE: ./src/widgets/Text.vue?vue&type=template&id=328446d8
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
+var es_number_constructor = __webpack_require__("a9e3");
+
+// EXTERNAL MODULE: ./node_modules/lodash.pick/index.js
+var lodash_pick = __webpack_require__("88bc");
+var lodash_pick_default = /*#__PURE__*/__webpack_require__.n(lodash_pick);
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Text.vue?vue&type=script&lang=js
+
+
+
+var coerce = function coerce(value) {
+  var field = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  if (field.type === 'number') {
+    // Number('') coerces to 0 :face-palm
+    return value === '' ? NaN : Number(value);
+  }
+
+  return value;
+};
+
+/* harmony default export */ var Textvue_type_script_lang_js = ({
+  props: {
+    modelValue: null,
+    field: Object
+  },
+  emits: ['update:modelValue'],
+  data: function data() {
+    return {
+      showError: false
+    };
+  },
+  computed: {
+    inputAttrs: function inputAttrs() {
+      var attrs = lodash_pick_default()(this.field, ['name', 'disabled', 'placeholder', 'id']);
+      attrs.value = this.modelValue;
+      attrs.type = this.field.ui.type;
+      attrs.class = 'form-control';
+      return attrs;
+    }
+  },
+  methods: {
+    onChange: function onChange(e) {
+      // TODO maybe use e.target.checkValidity()?
+      // note: without step a value of 0.1 is considered invalid by input[type=number]
+      var value = coerce(e.target.value, this.field);
+
+      if (this.field.type === 'number' && isNaN(value)) {
+        // TODO move to form level: validate and don't coerce/dupdateSstate/onChange if invalid
+        return;
+      }
+
+      this.$emit('update:modelValue', value);
+    }
+  }
+});
+// CONCATENATED MODULE: ./src/widgets/Text.vue?vue&type=script&lang=js
+ 
+// CONCATENATED MODULE: ./src/widgets/Text.vue
+
+
+
+Textvue_type_script_lang_js.render = Textvue_type_template_id_328446d8_render
+
+/* harmony default export */ var Text = (Textvue_type_script_lang_js);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Password.vue?vue&type=script&lang=js
+
+/* harmony default export */ var Passwordvue_type_script_lang_js = ({
+  mixins: [Text],
+  data: function data() {
+    return {
+      show_password: false
+    };
+  },
+  computed: {
+    iconClass: function iconClass() {
+      return "input-group-append cursor-pointer fa fa-eye".concat(this.show_password ? '-slash' : '');
+    },
+    type: function type() {
+      return this.show_password ? 'text' : 'password';
+    }
+  }
+});
+// CONCATENATED MODULE: ./src/widgets/Password.vue?vue&type=script&lang=js
+ 
+// CONCATENATED MODULE: ./src/widgets/Password.vue
+
+
+
+Passwordvue_type_script_lang_js.render = Passwordvue_type_template_id_2dc3b0ba_render
+
+/* harmony default export */ var Password = (Passwordvue_type_script_lang_js);
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Range.vue?vue&type=template&id=39d89537
 
 var Rangevue_type_template_id_39d89537_hoisted_1 = {
@@ -8821,13 +8894,6 @@ function Rangevue_type_template_id_39d89537_render(_ctx, _cache, $props, $setup,
   }), null, 16, ["value"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", Rangevue_type_template_id_39d89537_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.modelValue), 1)]);
 }
 // CONCATENATED MODULE: ./src/widgets/Range.vue?vue&type=template&id=39d89537
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
-var es_number_constructor = __webpack_require__("a9e3");
-
-// EXTERNAL MODULE: ./node_modules/lodash.pick/index.js
-var lodash_pick = __webpack_require__("88bc");
-var lodash_pick_default = /*#__PURE__*/__webpack_require__.n(lodash_pick);
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Range.vue?vue&type=script&lang=js
 
@@ -8917,78 +8983,8 @@ function Selectvue_type_template_id_298f103b_render(_ctx, _cache, $props, $setup
 Selectvue_type_script_lang_js.render = Selectvue_type_template_id_298f103b_render
 
 /* harmony default export */ var Select = (Selectvue_type_script_lang_js);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Text.vue?vue&type=template&id=328446d8
-
-function Textvue_type_template_id_328446d8_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("input", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["mergeProps"])($options.inputAttrs, {
-    onInput: _cache[1] || (_cache[1] = function () {
-      return $options.onChange && $options.onChange.apply($options, arguments);
-    }),
-    class: "form-control"
-  }), null, 16);
-}
-// CONCATENATED MODULE: ./src/widgets/Text.vue?vue&type=template&id=328446d8
-
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/widgets/Text.vue?vue&type=script&lang=js
-
-
-
-var coerce = function coerce(value) {
-  var field = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-  if (field.type === 'number') {
-    // Number('') coerces to 0 :face-palm
-    return value === '' ? NaN : Number(value);
-  }
-
-  return value;
-};
-
-/* harmony default export */ var Textvue_type_script_lang_js = ({
-  props: {
-    modelValue: null,
-    field: Object
-  },
-  emits: ['update:modelValue'],
-  data: function data() {
-    return {
-      showError: false
-    };
-  },
-  computed: {
-    inputAttrs: function inputAttrs() {
-      var attrs = lodash_pick_default()(this.field, ['name', 'disabled', 'placeholder', 'id']);
-      attrs.value = this.modelValue;
-      attrs.type = this.field.ui.type;
-      attrs.class = 'form-control';
-      return attrs;
-    }
-  },
-  methods: {
-    onChange: function onChange(e) {
-      // TODO maybe use e.target.checkValidity()?
-      // note: without step a value of 0.1 is considered invalid by input[type=number]
-      var value = coerce(e.target.value, this.field);
-
-      if (this.field.type === 'number' && isNaN(value)) {
-        // TODO move to form level: validate and don't coerce/dupdateSstate/onChange if invalid
-        return;
-      }
-
-      this.$emit('update:modelValue', value);
-    }
-  }
-});
-// CONCATENATED MODULE: ./src/widgets/Text.vue?vue&type=script&lang=js
- 
-// CONCATENATED MODULE: ./src/widgets/Text.vue
-
-
-
-Textvue_type_script_lang_js.render = Textvue_type_template_id_328446d8_render
-
-/* harmony default export */ var Text = (Textvue_type_script_lang_js);
 // CONCATENATED MODULE: ./src/index.js
+
 
 
 
@@ -9011,7 +9007,8 @@ var components = {
   Object: widgets_Object,
   Range: Range,
   Select: Select,
-  Text: Text
+  Text: Text,
+  Password: Password
 };
 var prefix = 'Unrest';
 var src_plugin = {
