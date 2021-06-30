@@ -12,6 +12,8 @@ const getDefaultTagName = field => {
     return 'unrest-image'
   } else if (field.format === 'color') {
     return 'unrest-color'
+  } else if (field.format === 'password') {
+    return 'unrest-password'
   }
   return 'unrest-text'
 }
@@ -21,7 +23,7 @@ const prepUi = (field, global_ui) => {
   if (field.type === 'number') {
     default_ui.type = 'number'
   }
-  if (field.name.includes('password')) {
+  if (field.format === 'password') {
     default_ui.type = 'password'
   }
   return Object.assign(default_ui, global_ui[field.name], field.ui)
