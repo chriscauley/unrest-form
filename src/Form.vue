@@ -35,7 +35,7 @@ export default {
     errors: Object,
     focus: {
       type: Boolean,
-      default: () => true
+      default: () => true,
     },
   },
   data: () => ({ internal_errors: null }),
