@@ -2,37 +2,24 @@
   "name": "@unrest/form",
   "author": "Chris Cauley <cauley.chris@gmail.com>",
   "version": "0.0.7",
-  "main": "dist/form.common.js",
+  "main": "dist/form.es.js",
   "license": "MIT",
   "scripts": {
-    "build": "vue-cli-service build --target lib src/index.js --no-clean",
-    "lint": "vue-cli-service lint",
+    "build": "vite build",
+    "lint": "eslint \"src/**/*\"",
     "test": "jest"
   },
-  "peerDependencies": {
-    "jsonschema": "^1.4.0"
-  },
   "dependencies": {
-    "core-js": "^3.6.5",
     "lodash.pick": "^4.4.0",
+    "jsonschema": "^1.4.0",
     "vue": "^3.0.0"
   },
   "devDependencies": {
     "@unrest/eslint-config": "^0.0.4",
-    "@vitejs/plugin-vue": "^1.2.4",
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-unit-jest": "^4.5.12",
-    "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-vue": "^7.0.0-0",
+    "@vitejs/plugin-vue": "^1.2.4",
     "jest": "^26.6.3",
-    "jsonschema": "^1.4.0",
-    "vue-loader": "^14.2.2"
+    "vite": "^2.3.8"
   },
   "browserslist": [
     "> 1%",

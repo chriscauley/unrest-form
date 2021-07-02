@@ -34,11 +34,11 @@ export default {
     password: {
       type: 'string',
       default: 'I am a password field',
+      format: 'password',
     },
     password_hint: {
       type: 'string',
       default: 'I am not a password field',
-      ui: { type: 'text' },
     },
     address: {
       type: 'object',
