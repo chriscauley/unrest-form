@@ -1,5 +1,5 @@
 export default {
-  toSentenceCase: s => {
+  toSentenceCase: (s) => {
     // convert camelCase and snake_case to Sentence case
     s = s
       .replace(/([A-Z])/g, ' $1')

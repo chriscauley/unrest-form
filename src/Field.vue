@@ -6,7 +6,7 @@
         v-is="field.ui.tagName"
         :field="field"
         :modelValue="modelValue"
-        @update:modelValue="value => $emit('update:modelValue', value)"
+        @update:modelValue="(value) => $emit('update:modelValue', value)"
       />
     </div>
     <div v-if="error" class="form-error">
@@ -26,6 +26,7 @@ export default {
     form: Object,
     modelValue: null,
   },
+  emits: ['update:modelValue'],
   computed: {
     error() {
       return this.ur_form.internal_errors?.[this.field.__path.join('.')]

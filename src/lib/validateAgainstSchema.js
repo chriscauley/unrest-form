@@ -1,6 +1,6 @@
 import { Validator } from 'jsonschema'
 
-export const deepRemoveEmpty = obj => {
+export const deepRemoveEmpty = (obj) => {
   const new_object = {}
 
   Object.entries(obj).forEach(([key, value]) => {

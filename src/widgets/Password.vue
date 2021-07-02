@@ -1,12 +1,12 @@
 <template>
   <div class="input-group">
     <input v-bind="inputAttrs" @input="onChange" class="form-control" :type="type" />
-    <i :class="iconClass" @click="show_password=!show_password" />
+    <i :class="iconClass" @click="show_password = !show_password" />
   </div>
 </template>
 
 <script>
-import Text from './Text'
+import Text from './Text.vue'
 export default {
   mixins: [Text],
   data() {
@@ -18,7 +18,7 @@ export default {
     },
     type() {
       return this.show_password ? 'text' : 'password'
-    }
+    },
   },
 }
 </script>

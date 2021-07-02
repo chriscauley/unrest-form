@@ -1,7 +1,7 @@
 import Str from './Str'
 import parseLazySchema from './parseLazySchema'
 
-const getDefaultTagName = field => {
+const getDefaultTagName = (field) => {
   if (field.type === 'object') {
     return 'unrest-object'
   } else if (field.enum) {

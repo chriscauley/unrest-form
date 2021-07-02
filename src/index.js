@@ -15,7 +15,7 @@ const components = { Form, Field, Checkbox, Image, Object: Object_, Range, Selec
 const prefix = 'Unrest'
 
 const plugin = {
-  install: app => {
+  install: (app) => {
     Object.entries(components).forEach(([name, component]) =>
       app.component(prefix + name, component),
     )
@@ -27,7 +27,7 @@ export default {
   parseLazySchema,
   plugin,
   ...components,
-  install: app => {
+  install: (app) => {
     console.warn('DEPRACATED: Use UrForm.plugin')
     app.use(plugin)
   },

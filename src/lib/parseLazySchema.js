@@ -1,6 +1,6 @@
 const TYPES = ['number', 'string', 'boolean']
 
-const parseLazySchema = schema => {
+const parseLazySchema = (schema) => {
   if (schema === null || schema === undefined) {
     return {} // jsonschema's "any" type
   }
