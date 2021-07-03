@@ -1159,6 +1159,18 @@
     anymatch "^3.0.0"
     source-map "^0.6.0"
 
+"@unrest/eslint-config@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@unrest/eslint-config/-/eslint-config-0.0.4.tgz#c4a2d0c492884eba0cc189fb0b024a76f1cbca45"
+  integrity sha512-8shKwIh4P+3fyywpfPrIPkWZ2MLpTR2OTIDN7ePLAP09FUHH7iYWtMwqW7uwcOieh3IDDSu2lNFyUknQM6RdZA==
+  dependencies:
+    babel-eslint "^10.1.0"
+    eslint "^6.7.2"
+    eslint-config-prettier "^8.1.0"
+    eslint-plugin-prettier "^3.3.1"
+    eslint-plugin-vue "^7.0.0-0"
+    prettier "^1.18.2"
+
 "@unrest/tailwind@^0.0.9":
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/@unrest/tailwind/-/tailwind-0.0.9.tgz#79cfa222b4521cf4842e52bb0381797666fffe75"
@@ -2610,6 +2622,11 @@ coa@^2.0.2:
     "@types/q" "^1.5.1"
     chalk "^2.4.1"
     q "^1.1.2"
+
+codemirror@^5.62.0:
+  version "5.62.0"
+  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.62.0.tgz#e9ecd012e6f9eaf2e05ff4a449ff750f51619e22"
+  integrity sha512-Xnl3304iCc8nyVZuRkzDVVwc794uc9QNX0UcPGeNic1fbzkSrO4l4GVXho9tRNKBgPYZXgocUqXyfIv3BILhCQ==
 
 collection-visit@^1.0.0:
   version "1.0.0"

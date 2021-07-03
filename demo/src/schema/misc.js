@@ -13,5 +13,5 @@ export default {
   password: {
     type: 'string',
     format: 'password',
-  }
+  },
 }

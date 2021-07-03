@@ -1,7 +1,7 @@
 const colors = ['bg', 'bg-alt', 'text', 'text-alt', 'border']
 
 const var_colors = {}
-colors.forEach(c => (var_colors[c] = `var(--${c})`))
+colors.forEach((c) => (var_colors[c] = `var(--${c})`))
 
 module.exports = {
   purge: false,
