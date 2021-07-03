@@ -4,9 +4,6 @@
       <div class="playground__box-wrapper">
         <div class="playground__box -schema">
           <div class="playground__box-title">Form schema</div>
-          <div v-if="error" class="alert alert-danger">
-            {{ error.message }}
-          </div>
           <div class="codemirror-wrapper">
             <div ref="codemirror" />
           </div>
@@ -58,10 +55,14 @@
 <script>
 import UrForm from '@unrest/form'
 
+import './jsonlint'
 import CodeMirror from 'codemirror'
+import 'codemirror/addon/lint/lint'
+import 'codemirror/addon/lint/json-lint'
 import 'codemirror/mode/javascript/javascript'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/railscasts.css'
+import 'codemirror/addon/lint/lint.css'
 
 export default {
   props: {
@@ -77,7 +78,7 @@ export default {
   },
   data() {
     const text_schema = JSON.stringify(this.schema, null, 4)
-    return { text_schema, current_schema: this.schema, error: null, text_state: null, events: [] }
+    return { text_schema, current_schema: this.schema, text_state: null, events: [] }
   },
   computed: {
     parsed_schema() {
@@ -93,10 +94,12 @@ export default {
   },
   mounted() {
     this.codemirror = CodeMirror(this.$refs.codemirror, {
-      mode: 'javascript',
+      mode: 'application/json',
       value: JSON.stringify(this.schema, null, 2),
       theme: 'railscasts',
+      gutters: ['CodeMirror-lint-markers'],
       lineNumbers: true,
+      lint: true,
     })
     this.codemirror.on('change', (cm) => {
       this.text_schema = cm.getValue()
@@ -125,15 +128,11 @@ export default {
       this.log({ type: 'submit', message: 'submit' })
     },
     sync() {
-      this.error = null
       try {
         const parsed = JSON.parse(this.text_schema)
         UrForm.prepField('__root', parsed)
         this.current_schema = parsed
-      } catch (e) {
-        window.E = e
-        this.error = e
-      }
+      } catch {}
       this.text_state = JSON.stringify(this.state, null, 2)
     },
   },

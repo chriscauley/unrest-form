@@ -12,8 +12,11 @@
     "@unrest/tailwind": "^0.0.9",
     "codemirror": "^5.62.0",
     "core-js": "^3.6.5",
+    "file": "^0.2.2",
+    "jsonlint": "^1.6.3",
     "jsonschema": "^1.4.0",
     "lodash.pick": "^4.4.0",
+    "system": "^2.0.1",
     "vue": "^3.0.0",
     "vue-router": "^4.0.3"
   },
