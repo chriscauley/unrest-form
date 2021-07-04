@@ -12,7 +12,7 @@ module.exports = {
   configureWebpack: {
     resolve: {
       alias: {
-        '@unrest/form': path.resolve(__dirname, '../src/index.js'),
+        '@unrest/vue-form': path.resolve(__dirname, '../src/index.js'),
       },
     },
   },

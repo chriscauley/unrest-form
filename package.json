@@ -1,8 +1,8 @@
 {
-  "name": "@unrest/form",
+  "name": "@unrest/vue-form",
   "author": "Chris Cauley <cauley.chris@gmail.com>",
   "version": "0.0.7",
-  "main": "dist/form.es.js",
+  "main": "dist/vue-form.es.js",
   "license": "MIT",
   "scripts": {
     "build": "vite build",

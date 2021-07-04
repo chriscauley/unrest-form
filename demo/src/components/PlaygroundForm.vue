@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import UrForm from '@unrest/form'
+import UrForm from '@unrest/vue-form'
 
 import './jsonlint'
 import CodeMirror from 'codemirror'
