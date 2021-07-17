@@ -1,12 +1,19 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
   <form @submit.prevent="submit" class="ur-form">
-    <unrest-field v-model="state" :field="field" :key="field.id" @change="change" @input="input" />
+    <unrest-field
+      v-model="state"
+      :field="prepped_schema"
+      :key="prepped_schema.id"
+      @change="change"
+      @input="input"
+    />
     <div v-for="(error, i) in computed_errors?.__root" :key="i" class="form-error">
       {{ error.message }}
     </div>
     <div class="ur-form__actions">
       <slot name="actions">
+        <div type="cancel" class="btn -secondary" v-if="onCancel" @click="onCancel">Cancel</div>
         <button type="submit" class="btn -primary">Submit</button>
       </slot>
     </div>
@@ -37,6 +44,7 @@ export default {
       type: Boolean,
       default: () => true,
     },
+    onCancel: Function,
   },
   data: () => ({ internal_errors: null }),
   computed: {
@@ -50,12 +58,12 @@ export default {
       }
       return errors
     },
-    field() {
+    prepped_schema() {
       return prepField('__root', this.schema)
     },
   },
   beforeMount() {
-    assignDefaults(this.state, this.field)
+    assignDefaults(this.state, this.prepped_schema)
   },
   mounted() {
     this.focus && this.$el.querySelector('input')?.focus()
@@ -77,7 +85,7 @@ export default {
       this.onInput?.(this.state, event)
     },
     submit(event) {
-      this.internal_errors = validateAgainstSchema(this.state, this.schema)
+      this.internal_errors = validateAgainstSchema(this.state, this.prepped_schema)
       if (this.internal_errors) {
         return
       }
