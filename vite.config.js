@@ -10,10 +10,11 @@ export default defineConfig({
       name: '@unrest/form'
     },
     rollupOptions: {
-      external: ['vue'],
+      external: ['vue', 'jsonschema'],
       output: {
         globals: {
           vue: 'Vue',
+          jsonschema: 'jsonschema',
         }
       }
     }

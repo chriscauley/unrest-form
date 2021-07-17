@@ -2,10 +2,10 @@
 
 ### Development
 
-To see changes while developing, use the demo. In order to develop you will need to delete the node_modules in the project root (advice on how to fix this would be greatly appreciated).
+To see changes while developing, use the demo.
 
 ```
-rm -rf node_modules
+# glone repo
 cd demo
 yarn install
 yarn serve
@@ -18,6 +18,7 @@ To update documentation (github pages), build the demo app and commit any change
 ```
 yarn install
 yarn lint
+yarn test
 yarn build
 yarn publish
 ```

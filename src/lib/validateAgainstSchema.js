@@ -1,4 +1,4 @@
-import { Validator } from 'jsonschema'
+import { validate } from 'jsonschema'
 
 export const deepRemoveEmpty = (obj) => {
   const new_object = {}
@@ -22,8 +22,7 @@ export const deepRemoveEmpty = (obj) => {
 }
 
 export default (instance, schema) => {
-  const v = new Validator()
-  const result = v.validate(deepRemoveEmpty(instance), schema)
+  const result = validate(deepRemoveEmpty(instance), schema)
   if (!result.errors.length) {
     return null
   }
