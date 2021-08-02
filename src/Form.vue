@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import { reactive } from 'vue'
 import validateAgainstSchema from './lib/validateAgainstSchema'
 import assignDefaults from './lib/assignDefaults'
 import prepField from './lib/prepField'
@@ -34,7 +35,9 @@ export default {
     uiSchema: Object,
     state: {
       type: Object,
-      default: () => ({}),
+      // TODO shouldn't have to make this reactive.
+      // Try toggling show/hide password in hive.js without it to see bug.
+      default: () => reactive({}),
     },
     onSubmit: Function,
     onChange: Function,
