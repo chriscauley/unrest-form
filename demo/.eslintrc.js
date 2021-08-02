@@ -1,1 +1,4 @@
-../.eslintrc.js
+module.exports = {
+  extends: '@unrest',
+  root: true,
+}
