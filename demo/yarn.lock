@@ -1171,10 +1171,10 @@
     eslint-plugin-vue "^7.0.0-0"
     prettier "^1.18.2"
 
-"@unrest/tailwind@^0.0.9":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@unrest/tailwind/-/tailwind-0.0.9.tgz#79cfa222b4521cf4842e52bb0381797666fffe75"
-  integrity sha512-1vLwYl3MrJVpFmiQknC3hjc/romyTHGNHUK/p7lyjicj+Smn9zlupht+Q3Dq2UKsgNddtbM9sMDilJYFKPXAFQ==
+"@unrest/tailwind@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@unrest/tailwind/-/tailwind-0.0.11.tgz#39b32fc7c930531cd07a20f084c2161ce1234190"
+  integrity sha512-YivR7tWNAf3wxlqII1EFvAd9Aco8uIbUZvDZ6eFcdyWutDPthyHdtb+ArixR28KNfZh9mE/S7ywkN/VIkh6yKA==
 
 "@vue/babel-helper-vue-jsx-merge-props@^1.2.1":
   version "1.2.1"
