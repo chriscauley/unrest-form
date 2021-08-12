@@ -14,6 +14,8 @@ const getDefaultTagName = (field) => {
     return 'unrest-color'
   } else if (field.format === 'password') {
     return 'unrest-password'
+  } else if (field.__widget === 'HiddenInput') {
+    return 'unrest-hidden'
   }
   return 'unrest-text'
 }
