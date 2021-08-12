@@ -39,6 +39,7 @@ export default {
       // Try toggling show/hide password in hive.js without it to see bug.
       default: () => reactive({}),
     },
+    onError: Function,
     onSubmit: Function,
     onChange: Function,
     onInput: Function,
@@ -49,6 +50,7 @@ export default {
     },
     onCancel: Function,
   },
+  emits: ['error'],
   data: () => ({ internal_errors: null }),
   computed: {
     computed_errors() {
@@ -58,6 +60,9 @@ export default {
       }
       if (errors.__all__) {
         errors.__root = errors.__all__
+      }
+      if (typeof errors.__root === 'string') {
+        errors.__root = [errors.__root]
       }
       return errors
     },
@@ -72,12 +77,16 @@ export default {
     this.focus && this.$el.querySelector('input')?.focus()
   },
   methods: {
+    setErrors(errors) {
+      this.internal_errors = errors
+      errors && this.$emit('error', errors)
+    },
     handleError(error) {
       if (error.message) {
-        this.internal_errors = { __root: error.message || error }
+        this.setErrors({ __root: error.message || error })
       }
       if (error.response?.data?.errors) {
-        this.internal_errors = error.response?.data?.errors
+        this.setErrors(error.response?.data?.errors)
       }
       throw error
     },
@@ -88,7 +97,7 @@ export default {
       this.onInput?.(this.state, event)
     },
     submit(event) {
-      this.internal_errors = validateAgainstSchema(this.state, this.prepped_schema)
+      this.setErrors(validateAgainstSchema(this.state, this.prepped_schema))
       if (this.internal_errors) {
         return
       }

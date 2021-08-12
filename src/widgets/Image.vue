@@ -8,13 +8,14 @@
       <div class="name">
         {{ name }}
       </div>
-      <button
-        class="fa fa-undo"
+      <div
+        class="fa fa-undo cursor-pointer"
         v-if="original && original !== modelValue"
         @click.prevent="set(original)"
         title="Revert to original value"
+        role="button"
       />
-      <button class="fa fa-trash" v-if="src && !required" @click.prevent="set(null)" />
+      <div class="fa fa-trash" v-if="src && !required" @click="set(null)" />
       <div class="btn -primary">
         Choose File
       </div>
