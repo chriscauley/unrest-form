@@ -6,7 +6,11 @@ const assignDefaults = (state, schema) => {
     })
     return state
   }
-  return state || schema.default
+  const value = state || schema.default
+  if (['integer', 'number'].includes(schema.type)) {
+    return isNaN(Number(value)) ? value : Number(value)
+  }
+  return value
 }
 
 export default assignDefaults
