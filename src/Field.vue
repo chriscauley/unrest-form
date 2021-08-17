@@ -29,7 +29,14 @@ export default {
   emits: ['update:modelValue'],
   computed: {
     error() {
-      return this.ur_form.internal_errors?.[this.field.__path.join('.')]
+      let error = this.ur_form.internal_errors?.[this.field.__path.join('.')]
+      if (Array.isArray(error)) {
+        error = error[0]
+      }
+      if (error?.message) {
+        error = error.message
+      }
+      return error
     },
     css() {
       return {

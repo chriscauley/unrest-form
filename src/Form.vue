@@ -61,7 +61,7 @@ export default {
       if (errors.__all__) {
         errors.__root = errors.__all__
       }
-      if (typeof errors.__root === 'string') {
+      if (errors.__root && !Array.isArray(errors.__root)) {
         errors.__root = [errors.__root]
       }
       return errors
