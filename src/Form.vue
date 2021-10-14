@@ -9,7 +9,7 @@
       @input="input"
     />
     <div v-for="(error, i) in computed_errors?.__root" :key="i" class="form-error">
-      {{ error.message }}
+      {{ error.message || error }}
     </div>
     <div class="ur-form__actions">
       <slot name="actions">
@@ -99,6 +99,7 @@ export default {
     submit(event) {
       this.setErrors(validateAgainstSchema(this.state, this.prepped_schema))
       if (this.internal_errors) {
+        console.error(this.internal_errors)
         return
       }
       try {

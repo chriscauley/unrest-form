@@ -26,7 +26,8 @@ export default {
   },
   computed: {
     inputAttrs() {
-      const attrs = pick(this.field, ['name', 'disabled', 'placeholder', 'id'])
+      const attrs = pick(this.field, ['name', 'disabled', 'placeholder', 'id', 'readOnly'])
+      attrs.value = this.modelValue
       attrs.type = this.field.ui.type
       attrs.class = 'form-control'
       return attrs

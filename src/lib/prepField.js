@@ -28,6 +28,9 @@ const prepUi = (field, global_ui) => {
   if (field.format === 'password') {
     default_ui.type = 'password'
   }
+  if (field.format === 'email') {
+    default_ui.type = 'email'
+  }
   return Object.assign(default_ui, global_ui[field.name], field.ui)
 }
 
