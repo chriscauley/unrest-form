@@ -4,16 +4,7 @@
 
 <script>
 import pick from 'lodash.pick'
-
-const coerce = (value, field = {}) => {
-  if (field.type === 'number') {
-    // Number('') coerces to 0 :face-palm
-    return value === '' ? NaN : Number(value)
-  } else if (field.type === 'array') {
-    return value.split(field.delimiter || ',').map(s => s.trim()).filter(Boolean)
-  }
-  return value
-}
+import coerce from '../lib/coerce'
 
 export default {
   props: {
@@ -34,7 +25,7 @@ export default {
     },
   },
   methods: {
-    onChange(e) {
+    onChange() {
       // TODO maybe use e.target.checkValidity()?
       // note: without step a value of 0.1 is considered invalid by input[type=number]
       const value = coerce(this.value, this.field)

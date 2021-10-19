@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import coerce from '../lib/coerce'
+
 export default {
   props: {
     modelValue: null,
@@ -28,7 +30,8 @@ export default {
   },
   methods: {
     onChange(e) {
-      this.$emit('update:modelValue', e.target.value)
+      const value = coerce(e.target.value, this.field)
+      this.$emit('update:modelValue', value)
     },
   },
 }

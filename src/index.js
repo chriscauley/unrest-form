@@ -12,7 +12,18 @@ import Text from './widgets/Text.vue'
 import prepField from './lib/prepField'
 import parseLazySchema from './lib/parseLazySchema'
 
-const components = { Form, Field, Checkbox, Checkboxes, Image, Object: Object_, Range, Select, Text, Password }
+const components = {
+  Form,
+  Field,
+  Checkbox,
+  Checkboxes,
+  Image,
+  Object: Object_,
+  Range,
+  Select,
+  Text,
+  Password,
+}
 const prefix = 'Unrest'
 
 const plugin = {

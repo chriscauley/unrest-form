@@ -99,6 +99,7 @@ export default {
     submit(event) {
       this.setErrors(validateAgainstSchema(this.state, this.prepped_schema))
       if (this.internal_errors) {
+        console.error(this.state)
         console.error(this.internal_errors)
         return
       }
