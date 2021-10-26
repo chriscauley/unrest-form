@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <form @submit.prevent="submit" class="ur-form">
+  <form @submit.prevent="submit" :class="['ur-form', loading && '-loading']">
     <unrest-field
       v-model="state"
       :field="prepped_schema"
@@ -51,7 +51,7 @@ export default {
     onCancel: Function,
   },
   emits: ['error'],
-  data: () => ({ internal_errors: null }),
+  data: () => ({ internal_errors: null, loading: false }),
   computed: {
     computed_errors() {
       const errors = {
@@ -82,6 +82,7 @@ export default {
       errors && this.$emit('error', errors)
     },
     handleError(error) {
+      this.loading = false
       if (error.message) {
         this.setErrors({ __root: error.message || error })
       }
@@ -97,6 +98,9 @@ export default {
       this.onInput?.(this.state, event)
     },
     submit(event) {
+      if (this.loading) {
+        return
+      }
       this.setErrors(validateAgainstSchema(this.state, this.prepped_schema))
       if (this.internal_errors) {
         console.error(this.state)
@@ -104,7 +108,13 @@ export default {
         return
       }
       try {
-        this.onSubmit(this.state, event)?.catch(this.handleError)
+        this.loading = true
+        Promise.resolve(this.onSubmit(this.state, event))
+          .then((data) => {
+            this.loading = false
+            return data
+          })
+          .catch(this.handleError)
       } catch (error) {
         this.handleError(error)
       }
