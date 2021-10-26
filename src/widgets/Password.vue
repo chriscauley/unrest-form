@@ -1,6 +1,12 @@
 <template>
   <div class="input-group">
-    <input v-bind="inputAttrs" @input="onChange" class="form-control" :type="type" />
+    <input
+      v-bind="inputAttrs"
+      @input="onChange"
+      v-model="value"
+      class="form-control"
+      :type="type"
+    />
     <i :class="iconClass" @click="show_password = !show_password" />
   </div>
 </template>
