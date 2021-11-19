@@ -1,5 +1,6 @@
 <template>
-  <input v-bind="inputAttrs" v-model="value" @input="onChange" class="form-control" />
+  <textarea v-if="textarea" v-bind="inputAttrs" v-model="value" @input="onChange" />
+  <input v-else v-bind="inputAttrs" v-model="value" @input="onChange" />
 </template>
 
 <script>
@@ -21,6 +22,10 @@ export default {
       attrs.type = this.field.ui.type
       attrs.class = 'form-control'
       return attrs
+    },
+    textarea() {
+      // vue stops preserving v-model on change if you set v-is to a variable
+      return this.field.__widget === 'Textarea'
     },
   },
   methods: {
