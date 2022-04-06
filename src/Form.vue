@@ -32,7 +32,7 @@ export default {
   },
   props: {
     schema: Object,
-    uiSchema: Object,
+    ui: Object,
     state: {
       type: Object,
       // TODO shouldn't have to make this reactive.

@@ -16,6 +16,11 @@ export default {
   data() {
     return { showError: false, value: this.modelValue }
   },
+  watch: {
+    modelValue() {
+      this.value = this.modelValue
+    },
+  },
   computed: {
     inputAttrs() {
       const attrs = pick(this.field, ['name', 'disabled', 'placeholder', 'id', 'readOnly'])
