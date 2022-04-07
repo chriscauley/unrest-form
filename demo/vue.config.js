@@ -19,5 +19,5 @@ module.exports = {
 }
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports.publicPath = '/unrest-form'
+  module.exports.publicPath = '/unrest-vue-form'
 }
