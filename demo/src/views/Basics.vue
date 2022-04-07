@@ -1,5 +1,5 @@
 <template>
-  <playground-form :schema="schema" :panels="['editor', 'form', 'state', 'schema']" />
+  <playground-form :schema="schema" :panels="['editor', 'form', 'state', 'events']" />
 </template>
 
 <script>

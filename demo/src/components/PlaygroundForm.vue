@@ -1,6 +1,6 @@
 <template>
   <div class="playground">
-    <div class="playground__top">
+    <div class="playground__left" v-if="panels.includes('editor')">
       <div class="playground__box-wrapper">
         <div class="playground__box -schema">
           <div class="playground__box-title">Form schema</div>
@@ -9,6 +9,8 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="playground__center" v-if="panels.includes('form')">
       <div class="playground__box-wrapper">
         <div class="playground__box -form">
           <div class="playground__box-title">Form</div>
@@ -18,24 +20,24 @@
         </div>
       </div>
     </div>
-    <div class="playground__bottom">
-      <div class="playground__box-wrapper">
-        <div class="playground__box -state" v-if="panels.includes('state')">
+    <div class="playground__right">
+      <div class="playground__box-wrapper" v-if="panels.includes('state')">
+        <div class="playground__box -state">
           <div class="playground__box-title">Form State</div>
           <div class="playground__box-content -pre">
             {{ text_state }}
           </div>
         </div>
       </div>
-      <div class="playground__box-wrapper">
-        <div class="playground__box -resulting-schema" v-if="panels.includes('schema')">
+      <div class="playground__box-wrapper" v-if="panels.includes('schema')">
+        <div class="playground__box -resulting-schema">
           <div class="playground__box-title">Resulting schema</div>
           <div class="playground__box-content -pre">
             {{ parsed_schema }}
           </div>
         </div>
       </div>
-      <div class="playground__box-wrapper">
+      <div class="playground__box-wrapper" v-if="panels.includes('events')">
         <div class="playground__box -events">
           <div class="playground__box-title">Events</div>
           <div class="playground__box-content">
@@ -43,6 +45,9 @@
               <li v-for="(event, i) in events" :key="i" class="playground__event">
                 <div>{{ event.message }}</div>
                 <div v-if="event.count" class="pill pill-primary">{{ event.count }}</div>
+              </li>
+              <li v-if="!events.length">
+                Events fired from the form will be logged here.
               </li>
             </ul>
           </div>
@@ -112,7 +117,7 @@ export default {
     log(event) {
       const last = this.events[this.events.length - 1]
       if (last?.message === event.message) {
-        last.count = (last.count || 0) + 1
+        last.count = (last.count || 1) + 1
       } else {
         this.events.push(event)
       }

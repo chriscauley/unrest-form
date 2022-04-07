@@ -16,8 +16,11 @@
 const tabs = [
   ['/', 'Basics'],
   ['/lazy/', 'Lazy'],
-  ['/misc/', 'Misc'],
 ]
+
+if (process.env.NODE_ENV !== 'production') {
+  tabs.push(['/misc/', 'Misc'])
+}
 
 export default {
   data() {
