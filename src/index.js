@@ -28,19 +28,21 @@ const prefix = 'Unrest'
 
 const plugin = {
   install: (app) => {
+    console.warn('DEPRACATED: app.use(UrForm) is now preferred')
+    app.use(_default)
+  },
+}
+
+const _default = {
+  prepField,
+  parseLazySchema,
+  plugin,
+  ...components,
+  install: (app) => {
     Object.entries(components).forEach(([name, component]) =>
       app.component(prefix + name, component),
     )
   },
 }
 
-export default {
-  prepField,
-  parseLazySchema,
-  plugin,
-  ...components,
-  install: (app) => {
-    console.warn('DEPRACATED: Use UrForm.plugin')
-    app.use(plugin)
-  },
-}
+export default _default
