@@ -15,6 +15,7 @@
       <slot name="actions">
         <div type="cancel" class="btn -secondary" v-if="onCancel" @click="onCancel">Cancel</div>
         <button type="submit" class="btn -primary">Submit</button>
+        <slot name="extra_actions" />
       </slot>
     </div>
   </form>
