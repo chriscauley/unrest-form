@@ -22,10 +22,17 @@ export default {
         return this.field.getChoices()
       }
       const names = this.field.enumNames || this.field.enum
-      return this.field.enum.map((value, i) => ({
+      const choices = this.field.enum.map((value, i) => ({
         value,
         name: names[i],
       }))
+      if (this.field.placeholder) {
+        choices.unshift({
+          name: this.field.placeholder,
+          value: '',
+        })
+      }
+      return choices
     },
   },
   methods: {
