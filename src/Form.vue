@@ -110,7 +110,7 @@ export default {
       }
       try {
         this.loading = true
-        Promise.resolve(this.onSubmit(this.state, event))
+        Promise.resolve(this.onSubmit?.(this.state, event))
           .then((data) => {
             this.loading = false
             return data
