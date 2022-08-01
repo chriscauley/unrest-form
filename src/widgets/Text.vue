@@ -16,11 +16,6 @@ export default {
   data() {
     return { showError: false, value: this.modelValue }
   },
-  watch: {
-    modelValue() {
-      this.value = this.modelValue
-    },
-  },
   computed: {
     inputAttrs() {
       const attrs = pick(this.field, ['name', 'disabled', 'placeholder', 'id', 'readOnly'])
@@ -31,6 +26,11 @@ export default {
     textarea() {
       // vue stops preserving v-model on change if you set v-is to a variable
       return this.field.__widget === 'Textarea'
+    },
+  },
+  watch: {
+    modelValue() {
+      this.value = this.modelValue
     },
   },
   methods: {

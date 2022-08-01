@@ -9,6 +9,8 @@ import Range from './widgets/Range.vue'
 import Select from './widgets/Select.vue'
 import Text from './widgets/Text.vue'
 
+import coerce from './lib/coerce'
+import getChoices from './lib/getChoices'
 import prepField from './lib/prepField'
 import parseLazySchema from './lib/parseLazySchema'
 
@@ -34,6 +36,8 @@ const plugin = {
 }
 
 const _default = {
+  coerce,
+  getChoices,
   prepField,
   parseLazySchema,
   plugin,

@@ -4,7 +4,7 @@ import parseLazySchema from './parseLazySchema'
 const getDefaultTagName = (field) => {
   if (field.type === 'object') {
     return 'unrest-object'
-  } else if (field.enum) {
+  } else if (field.enum || field.getChoices) {
     return 'unrest-select'
   } else if (field.type === 'boolean') {
     return 'unrest-checkbox'

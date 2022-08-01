@@ -8,6 +8,7 @@
 
 <script>
 import coerce from '../lib/coerce'
+import getChoices from '../lib/getChoices'
 
 export default {
   props: {
@@ -18,21 +19,7 @@ export default {
   emits: ['update:modelValue'],
   computed: {
     choices() {
-      if (this.field.getChoices) {
-        return this.field.getChoices()
-      }
-      const names = this.field.enumNames || this.field.enum
-      const choices = this.field.enum.map((value, i) => ({
-        value,
-        name: names[i],
-      }))
-      if (this.field.placeholder) {
-        choices.unshift({
-          name: this.field.placeholder,
-          value: '',
-        })
-      }
-      return choices
+      return getChoices(this.field)
     },
   },
   methods: {
