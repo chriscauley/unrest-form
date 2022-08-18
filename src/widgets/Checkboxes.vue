@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import getChoices from './getChoices'
+import getChoices from '../lib/getChoices'
 
 export default {
   props: {
