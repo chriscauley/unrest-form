@@ -3,8 +3,9 @@ export default (field) => {
   if (field.getChoices) {
     choices = field.getChoices()
   } else {
-    const names = field.enumNames || field.enum
-    choices = field.enum.map((value, i) => ({
+    const enum_ = field.enum || field.items?.enum
+    const names = field.enumNames || field.items?.enumNames || enum_
+    choices = enum_.map((value, i) => ({
       value,
       name: names[i],
     }))

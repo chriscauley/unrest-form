@@ -1,8 +1,12 @@
+import cloneDeep from 'lodash.clonedeep'
+
 import Str from './Str'
 import parseLazySchema from './parseLazySchema'
 
 const getDefaultTagName = (field) => {
-  if (field.type === 'object') {
+  if (field.format === 'hidden' || field.__widget === 'HiddenInput') {
+    return 'unrest-hidden'
+  } else if (field.type === 'object') {
     return 'unrest-object'
   } else if (field.enum || field.getChoices) {
     return 'unrest-select'
@@ -14,8 +18,8 @@ const getDefaultTagName = (field) => {
     return 'unrest-color'
   } else if (field.format === 'password') {
     return 'unrest-password'
-  } else if (field.__widget === 'HiddenInput') {
-    return 'unrest-hidden'
+  } else if (field.type === 'array' && field.items.enum) {
+    return 'unrest-checkboxes'
   }
   return 'unrest-text'
 }
@@ -34,7 +38,8 @@ const prepUi = (field, global_ui) => {
   return Object.assign(default_ui, global_ui[field.name], field.ui)
 }
 
-export default (name, { ...field }, { ui: global_ui = {} } = {}, path = []) => {
+export default (name, field, { ui: global_ui = {} } = {}, path = []) => {
+  field = cloneDeep(field)
   if (field.type === 'lazy') {
     field = parseLazySchema(field)
   }
@@ -47,6 +52,15 @@ export default (name, { ...field }, { ui: global_ui = {} } = {}, path = []) => {
   field.__path = path.slice()
   if (name !== '__root') {
     field.__path.push(field.name)
+  }
+  if (field.type === 'object') {
+    if (field.default) {
+      Object.entries(field.default).forEach(([key, value]) => {
+        if (field.properties[key] && !field.properties[key].default) {
+          field.properties[key].default = value
+        }
+      })
+    }
   }
   return field
 }

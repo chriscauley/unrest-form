@@ -1,12 +1,12 @@
-const assignDefaults = (state, schema) => {
+const assignDefaults = (value, schema) => {
   if (schema.type === 'object') {
-    state = state || {}
+    const state = value || {}
     Object.entries(schema.properties).forEach(([key, property]) => {
-      state[key] = assignDefaults(state[key], property)
+      state[key] = assignDefaults(schema.default?.[key] || state[key], property)
     })
     return state
   }
-  const value = state || schema.default
+  value = value || schema.default
   if (['integer', 'number'].includes(schema.type)) {
     return isNaN(Number(value)) ? value : Number(value)
   }
