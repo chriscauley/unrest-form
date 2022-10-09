@@ -11,7 +11,7 @@
     <div v-for="(error, i) in computed_errors?.__root" :key="i" class="form-error">
       {{ error.message || error }}
     </div>
-    <div class="ur-form__actions">
+    <div class="ur-form__actions" v-if="onSubmit">
       <slot name="actions">
         <div type="cancel" class="btn -secondary" v-if="onCancel" @click="onCancel">Cancel</div>
         <button type="submit" class="btn -primary">Submit</button>
