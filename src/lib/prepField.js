@@ -6,6 +6,8 @@ import parseLazySchema from './parseLazySchema'
 const getDefaultTagName = (field) => {
   if (field.format === 'hidden' || field.__widget === 'HiddenInput') {
     return 'unrest-hidden'
+  } else if (field.format === 'date-time') {
+    return 'unrest-date-time'
   } else if (field.type === 'object') {
     return 'unrest-object'
   } else if (field.enum || field.getChoices) {

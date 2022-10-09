@@ -2,6 +2,7 @@ import Form from './Form.vue'
 import Field from './Field.vue'
 import Checkbox from './widgets/Checkbox.vue'
 import Checkboxes from './widgets/Checkboxes.vue'
+import DateTime from './widgets/DateTime.vue'
 import Image from './widgets/Image.vue'
 import Object_ from './widgets/Object.vue'
 import Password from './widgets/Password.vue'
@@ -19,6 +20,7 @@ const components = {
   Field,
   Checkbox,
   Checkboxes,
+  DateTime,
   Image,
   Object: Object_,
   Range,
