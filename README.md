@@ -90,3 +90,21 @@ yarn build
 yarn publish
 ```
 
+## Datetime Fields
+
+If the schema specifes a format as date time, this library will try to use [vue3datepicker](https://vue3datepicker.com/). This library is not included in packages. To use it run
+
+```npm install @vuepic/vue-datepicker```
+
+and then add the following to main.js
+
+``` javascript
+import DatePicker from '@vuepic/vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
+
+ createApp(App)
+  .component('date-picker', DatePicker)
+  ... // everything else here
+  .mount("#app")
+```
+

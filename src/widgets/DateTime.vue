@@ -5,6 +5,7 @@
 </template>
 
 <script>
+let warned
 export default {
   props: {
     modelValue: String,
@@ -13,6 +14,18 @@ export default {
   emits: ['update:modelValue'],
   data() {
     return { internal_value: this.modelValue }
+  },
+  mounted() {
+    if (!warned && !this.$.appContext.components['date-picker']) {
+      // these warnings are console.error because vue also displays HUGE warnings
+      warned = true
+      if (this.$.appContext.components['datepicker']) {
+        console.error('"datepicker" component should be registered as "date-picker"')
+      } else {
+        const url = 'https://github.com/chriscauley/unrest-vue-form#datetime-fields'
+        console.error(`Warning, unable to find vue date picker. See ${url}`)
+      }
+    }
   },
   methods: {
     close() {
