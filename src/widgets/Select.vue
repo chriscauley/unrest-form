@@ -1,5 +1,11 @@
 <template>
-  <select @input="onChange" :value="modelValue" :id="field.id" class="form-control">
+  <select
+    @input="onChange"
+    :value="modelValue"
+    :id="field.id"
+    class="form-control"
+    :disabled="field.disabled"
+  >
     <option v-for="choice in choices" :value="choice.value" :key="choice.name">
       {{ choice.name }}
     </option>
