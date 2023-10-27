@@ -2,7 +2,10 @@ const assignDefaults = (value, schema) => {
   if (schema.type === 'object') {
     const state = value || {}
     Object.entries(schema.properties).forEach(([key, property]) => {
-      state[key] = assignDefaults(schema.default?.[key] || state[key], property)
+      const new_value = assignDefaults(schema.default?.[key] || state[key], property)
+      if (new_value !== undefined) {
+        state[key] = new_value
+      }
     })
     return state
   }
