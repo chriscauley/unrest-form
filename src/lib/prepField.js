@@ -16,8 +16,6 @@ const getDefaultTagName = (field) => {
     return 'unrest-checkbox'
   } else if (field.type === 'image') {
     return 'unrest-image'
-  } else if (field.format === 'color') {
-    return 'unrest-color'
   } else if (field.format === 'password') {
     return 'unrest-password'
   } else if (field.type === 'array' && field.items.enum) {
@@ -36,6 +34,9 @@ const prepUi = (field, global_ui) => {
   }
   if (field.format === 'email') {
     default_ui.type = 'email'
+  }
+  if (field.format === 'color') {
+    default_ui.type = 'color'
   }
   return Object.assign(default_ui, global_ui[field.name], field.ui)
 }
