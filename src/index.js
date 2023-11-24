@@ -6,6 +6,7 @@ import DateTime from './widgets/DateTime.vue'
 import Image from './widgets/Image.vue'
 import Object_ from './widgets/Object.vue'
 import Password from './widgets/Password.vue'
+import RadioButtons from './widgets/RadioButtons.vue'
 import Range from './widgets/Range.vue'
 import Select from './widgets/Select.vue'
 import Text from './widgets/Text.vue'
@@ -23,6 +24,7 @@ const components = {
   DateTime,
   Image,
   Object: Object_,
+  RadioButtons,
   Range,
   Select,
   Text,
